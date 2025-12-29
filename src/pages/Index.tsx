@@ -57,7 +57,7 @@ const Index = () => {
           <div className="space-y-4">
             <DateBadge 
               date="14/01" 
-              day="Terça-feira" 
+              day="Quarta-feira" 
               label="Semana"
             />
             

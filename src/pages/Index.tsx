@@ -6,24 +6,36 @@ import ObservationCard from "@/components/ObservationCard";
 import Footer from "@/components/Footer";
 
 const Index = () => {
-  const aberturaTeam = [
+  // Equipes do dia 07/01
+  const abertura07 = [
     { name: "Balbina" },
     { name: "Jordana" },
     { name: "Kel" },
   ];
 
-  const fechamentoTeam = [
+  const fechamento07 = [
+    { name: "Rose" },
+    { name: "Estefany" },
+  ];
+
+  // Equipes do dia 24/01
+  const abertura24 = [
+    { name: "Estefany" },
+    { name: "Balbina" },
+    { name: "Jordana" },
+  ];
+
+  const fechamento24 = [
     { name: "Cris" },
     { name: "Daniela" },
   ];
 
   const observations = [
-    "<strong>Abertura:</strong> 3 pessoas em horário de cultos + orientadora Estefany Mayara",
-    "<strong>Fechamento:</strong> 2 pessoas (Cris e Daniela) + orientadora Presb. Cibele",
-    "<strong>Orientadora na Abertura:</strong> Estefany Mayara responsável por orientar e organizar",
-    "<strong>Orientadora no Fechamento:</strong> Presb. Cibele responsável por orientar",
+    "<strong>Dia 07/01:</strong> Abertura com Balbina, Jordana e Kel | Fechamento com Rose e Estefany",
+    "<strong>Dia 24/01:</strong> Abertura com Estefany, Balbina e Jordana | Fechamento com Cris e Daniela",
+    "<strong>Orientadoras 07/01:</strong> Estefany Mayara (abertura) e Presb. Cibele (fechamento)",
+    "<strong>Orientadoras 24/01:</strong> Rosemeire (abertura) e Estefany (fechamento)",
     "<strong>Chegada Antecipada:</strong> Toda a equipe de abertura deve chegar <strong>1 hora antes</strong> do horário de culto para organizar a mesa das bijus",
-    "<strong>Mesma equipe:</strong> Balbina, Jordana e Kel continuam em ambos os turnos",
   ];
 
   return (
@@ -37,13 +49,13 @@ const Index = () => {
           <InfoCard
             type="abertura"
             description="3 pessoas responsáveis por receber e acolher"
-            orientadora="Estefany Mayara"
+            orientadora="Varia conforme a data"
             arrivalNote="Chegar 1 hora antes do horário de culto para organizar a mesa das bijus"
           />
           <InfoCard
             type="fechamento"
             description="2 pessoas responsáveis por encerrar e organizar"
-            orientadora="Presb. Cibele"
+            orientadora="Varia conforme a data"
           />
         </section>
 
@@ -53,10 +65,10 @@ const Index = () => {
             <span className="text-2xl">📅</span> Plantões
           </h2>
 
-          {/* 14/01 - Terça */}
+          {/* 07/01 - Quarta-feira */}
           <div className="space-y-4">
             <DateBadge 
-              date="14/01" 
+              date="07/01" 
               day="Quarta-feira" 
               label="Semana"
             />
@@ -64,14 +76,37 @@ const Index = () => {
             <div className="grid md:grid-cols-2 gap-4">
               <ScheduleCard
                 type="abertura"
-                members={aberturaTeam}
+                members={abertura07}
                 orientadora="Estefany Mayara"
                 showArrivalNote
               />
               <ScheduleCard
                 type="fechamento"
-                members={fechamentoTeam}
+                members={fechamento07}
                 orientadora="Presb. Cibele"
+              />
+            </div>
+          </div>
+
+          {/* 24/01 - Sábado */}
+          <div className="space-y-4">
+            <DateBadge 
+              date="24/01" 
+              day="Sábado" 
+              label="Fim de Semana"
+            />
+            
+            <div className="grid md:grid-cols-2 gap-4">
+              <ScheduleCard
+                type="abertura"
+                members={abertura24}
+                orientadora="Rosemeire"
+                showArrivalNote
+              />
+              <ScheduleCard
+                type="fechamento"
+                members={fechamento24}
+                orientadora="Estefany"
               />
             </div>
           </div>

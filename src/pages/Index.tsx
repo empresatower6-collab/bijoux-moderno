@@ -7,28 +7,14 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   // Equipes do dia 25/02
-  const abertura25 = [
-    { name: "Balbina" },
-    { name: "Jordana" },
-    { name: "Ana Beatriz" },
-  ];
+  const abertura25 = [{ name: "Balbina" }, { name: "Jordana" }, { name: "Ana Beatriz" }];
 
-  const fechamento25 = [
-    { name: "Daniela" },
-    { name: "Presbitera Cibele" },
-  ];
+  const fechamento25 = [{ name: "Daniela" }, { name: "Presbitera Cibele" }];
 
   // Equipes do dia 24/01
-  const abertura24 = [
-    { name: "Estefany" },
-    { name: "Balbina" },
-    { name: "Jordana" },
-  ];
+  const abertura24 = [{ name: "Estefany" }, { name: "Balbina" }, { name: "Jordana" }];
 
-  const fechamento24 = [
-    { name: "Cris" },
-    { name: "Daniela" },
-  ];
+  const fechamento24 = [{ name: "Cris" }, { name: "Daniela" }];
 
   const observations = [
     "<strong>Dia 25/02:</strong> Abertura com Balbina, Jordana e Ana Beatriz | Fechamento com Daniela e Presbitera Cibele",
@@ -67,47 +53,21 @@ const Index = () => {
 
           {/* 25/02 - Quarta-feira */}
           <div className="space-y-4">
-            <DateBadge 
-              date="25/02" 
-              day="Quarta-feira" 
-              label="Semana"
-            />
-            
+            <DateBadge date="25/02" day="Quarta-feira" label="Semana" />
+
             <div className="grid md:grid-cols-2 gap-4">
-              <ScheduleCard
-                type="abertura"
-                members={abertura25}
-                orientadora="Estefany Mayara"
-                showArrivalNote
-              />
-              <ScheduleCard
-                type="fechamento"
-                members={fechamento25}
-                orientadora="Presb. Cibele"
-              />
+              <ScheduleCard type="abertura" members={abertura25} orientadora="Estefany Mayara" showArrivalNote />
+              <ScheduleCard type="fechamento" members={fechamento25} orientadora="Presb. Cibele" />
             </div>
           </div>
 
-          {/* 24/01 - Sábado */}
+          {/* 28/02 - Sábado */}
           <div className="space-y-4">
-            <DateBadge 
-              date="24/01" 
-              day="Sábado" 
-              label="Fim de Semana"
-            />
-            
+            <DateBadge date="24/01" day="Sábado" label="Fim de Semana" />
+
             <div className="grid md:grid-cols-2 gap-4">
-              <ScheduleCard
-                type="abertura"
-                members={abertura24}
-                orientadora="Rosemeire"
-                showArrivalNote
-              />
-              <ScheduleCard
-                type="fechamento"
-                members={fechamento24}
-                orientadora="Estefany"
-              />
+              <ScheduleCard type="abertura" members={abertura24} orientadora="Rosemeire" showArrivalNote />
+              <ScheduleCard type="fechamento" members={fechamento24} orientadora="Estefany" />
             </div>
           </div>
         </section>

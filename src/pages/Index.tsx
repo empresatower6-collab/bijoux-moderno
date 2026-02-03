@@ -42,7 +42,7 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background py-8 px-4 md:px-6">
       <div className="max-w-3xl mx-auto space-y-8">
         {/* Header */}
-        <Header month="Janeiro" year="2026" />
+        <Header month="Fevereiro" year="2026" />
 
         {/* Informações Gerais */}
         <section className="grid md:grid-cols-2 gap-4">

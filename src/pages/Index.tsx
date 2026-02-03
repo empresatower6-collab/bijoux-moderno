@@ -35,25 +35,18 @@ const Index = () => {
           <InfoCard
             type="abertura"
             description="3 pessoas responsáveis por receber e acolher"
-            orientadora="Varia conforme a data"
+            orientadora="Estefany"
             arrivalNote="Chegar 1 hora antes do horário de culto para organizar a mesa das bijus"
-            additionalNote="A orientadora vai orientar onde pega os materiais"
-            tasks={[
-              "Orientar a organização e disposição das mesas",
-              "Entregar maquininha de cartão e QR Code para a Pastora",
-              "Atribuir responsabilidade e controle das vendas"
-            ]}
+            additionalNote="A orientadora vai pegar os materiais com a Pastora (maquininha de cartão, chave da ceia, etc.)"
           />
           <InfoCard
             type="fechamento"
             description="2 pessoas responsáveis por encerrar e organizar"
             orientadora="Presbítera Cibele"
             tasks={[
-              "Orientar onde os materiais devem ser colocados/guardados",
-              "Instruir a forma correta de guardar os itens na caixa",
-              "Verificar se a Sala da Ceia está organizada (incluindo os materiais da Biju)",
-              "Tirar foto da Sala da Ceia para comprovar a organização",
-              "Mandar foto para a Pastora Edinolia para mostrar como ficou a sala"
+              "Pegar a chave da sala da ceia",
+              "Verificar se o canto da Biju está organizado na sala",
+              "Mandar foto para a Pastora Edinolia mostrando como ficou"
             ]}
           />
         </section>

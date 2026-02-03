@@ -43,7 +43,7 @@ const InfoCard = ({ type, description, orientadora, arrivalNote, additionalNote,
 
       {tasks && tasks.length > 0 && (
         <div className="mt-4 space-y-2 p-3 rounded-xl bg-secondary/5 border border-secondary/20">
-          <p className="text-xs font-semibold text-secondary mb-2">Tarefas do Fechamento:</p>
+          <p className="text-xs font-semibold text-secondary mb-2">Tarefas {isAbertura ? "da Abertura" : "do Fechamento"}:</p>
           {tasks.map((task, index) => (
             <div key={index} className="flex items-start gap-2">
               <CheckCircle2 className="w-3.5 h-3.5 text-secondary mt-0.5 flex-shrink-0" />

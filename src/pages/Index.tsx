@@ -20,7 +20,7 @@ const Index = () => {
     "<strong>Dia 25/02:</strong> Abertura com Balbina, Jordana e Ana Beatriz | Fechamento com Daniela e Presbitera Cibele",
     "<strong>Dia 28/02:</strong> Abertura com Estefany, Balbina e Daniela | Fechamento com Cris e Ana Bia",
     "<strong>Orientadoras 25/02:</strong> Estefany Mayara (abertura) e Presb. Cibele (fechamento)",
-    "<strong>Orientadoras 28/02:</strong> Estefany (abertura) e Estefany (fechamento)",
+    "<strong>Orientadoras 28/02:</strong> Estefany (abertura) e Presb. Cibele (fechamento)",
     "<strong>Chegada Antecipada:</strong> Toda a equipe de abertura deve chegar <strong>1 hora antes</strong> do horário de culto para organizar a mesa das bijus",
   ];
 
@@ -38,6 +38,11 @@ const Index = () => {
             orientadora="Varia conforme a data"
             arrivalNote="Chegar 1 hora antes do horário de culto para organizar a mesa das bijus"
             additionalNote="A orientadora vai orientar onde pega os materiais"
+            tasks={[
+              "Orientar a organização e disposição das mesas",
+              "Entregar maquininha de cartão e QR Code para a Pastora",
+              "Atribuir responsabilidade e controle das vendas"
+            ]}
           />
           <InfoCard
             type="fechamento"
@@ -45,7 +50,9 @@ const Index = () => {
             orientadora="Presbítera Cibele"
             tasks={[
               "Orientar onde os materiais devem ser colocados/guardados",
+              "Instruir a forma correta de guardar os itens na caixa",
               "Verificar se a Sala da Ceia está organizada (incluindo os materiais da Biju)",
+              "Tirar foto da Sala da Ceia para comprovar a organização",
               "Mandar foto para a Pastora Edinolia para mostrar como ficou a sala"
             ]}
           />
@@ -73,7 +80,7 @@ const Index = () => {
 
             <div className="grid md:grid-cols-2 gap-4">
               <ScheduleCard type="abertura" members={abertura28} orientadora="Estefany" showArrivalNote />
-              <ScheduleCard type="fechamento" members={fechamento28} orientadora="Estefany" />
+              <ScheduleCard type="fechamento" members={fechamento28} orientadora="Presb. Cibele" />
             </div>
           </div>
         </section>

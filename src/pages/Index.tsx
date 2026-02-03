@@ -6,16 +6,16 @@ import ObservationCard from "@/components/ObservationCard";
 import Footer from "@/components/Footer";
 
 const Index = () => {
-  // Equipes do dia 07/01
-  const abertura07 = [
+  // Equipes do dia 25/02
+  const abertura25 = [
     { name: "Balbina" },
     { name: "Jordana" },
-    { name: "Kel" },
+    { name: "Ana Beatriz" },
   ];
 
-  const fechamento07 = [
-    { name: "Rose" },
-    { name: "Estefany" },
+  const fechamento25 = [
+    { name: "Daniela" },
+    { name: "Presbitera Cibele" },
   ];
 
   // Equipes do dia 24/01
@@ -31,9 +31,9 @@ const Index = () => {
   ];
 
   const observations = [
-    "<strong>Dia 07/01:</strong> Abertura com Balbina, Jordana e Kel | Fechamento com Rose e Estefany",
+    "<strong>Dia 25/02:</strong> Abertura com Balbina, Jordana e Ana Beatriz | Fechamento com Daniela e Presbitera Cibele",
     "<strong>Dia 24/01:</strong> Abertura com Estefany, Balbina e Jordana | Fechamento com Cris e Daniela",
-    "<strong>Orientadoras 07/01:</strong> Estefany Mayara (abertura) e Presb. Cibele (fechamento)",
+    "<strong>Orientadoras 25/02:</strong> Estefany Mayara (abertura) e Presb. Cibele (fechamento)",
     "<strong>Orientadoras 24/01:</strong> Rosemeire (abertura) e Estefany (fechamento)",
     "<strong>Chegada Antecipada:</strong> Toda a equipe de abertura deve chegar <strong>1 hora antes</strong> do horário de culto para organizar a mesa das bijus",
   ];
@@ -65,10 +65,10 @@ const Index = () => {
             <span className="text-2xl">📅</span> Plantões
           </h2>
 
-          {/* 07/01 - Quarta-feira */}
+          {/* 25/02 - Quarta-feira */}
           <div className="space-y-4">
             <DateBadge 
-              date="07/01" 
+              date="25/02" 
               day="Quarta-feira" 
               label="Semana"
             />
@@ -76,13 +76,13 @@ const Index = () => {
             <div className="grid md:grid-cols-2 gap-4">
               <ScheduleCard
                 type="abertura"
-                members={abertura07}
+                members={abertura25}
                 orientadora="Estefany Mayara"
                 showArrivalNote
               />
               <ScheduleCard
                 type="fechamento"
-                members={fechamento07}
+                members={fechamento25}
                 orientadora="Presb. Cibele"
               />
             </div>

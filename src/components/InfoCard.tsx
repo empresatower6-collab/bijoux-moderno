@@ -1,13 +1,15 @@
-import { DoorOpen, Lock, Clock, AlertCircle } from "lucide-react";
+import { DoorOpen, Lock, Clock, CheckCircle2 } from "lucide-react";
 
 interface InfoCardProps {
   type: "abertura" | "fechamento";
   description: string;
   orientadora: string;
   arrivalNote?: string;
+  additionalNote?: string;
+  tasks?: string[];
 }
 
-const InfoCard = ({ type, description, orientadora, arrivalNote }: InfoCardProps) => {
+const InfoCard = ({ type, description, orientadora, arrivalNote, additionalNote, tasks }: InfoCardProps) => {
   const isAbertura = type === "abertura";
   
   return (
@@ -30,7 +32,24 @@ const InfoCard = ({ type, description, orientadora, arrivalNote }: InfoCardProps
       {arrivalNote && (
         <div className="mt-4 flex items-start gap-2 p-3 rounded-xl bg-primary/5 border border-primary/20">
           <Clock className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-          <p className="text-xs text-primary font-medium">{arrivalNote}</p>
+          <div className="space-y-1">
+            <p className="text-xs text-primary font-medium">{arrivalNote}</p>
+            {additionalNote && (
+              <p className="text-xs text-primary font-medium">{additionalNote}</p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {tasks && tasks.length > 0 && (
+        <div className="mt-4 space-y-2 p-3 rounded-xl bg-secondary/5 border border-secondary/20">
+          <p className="text-xs font-semibold text-secondary mb-2">Tarefas do Fechamento:</p>
+          {tasks.map((task, index) => (
+            <div key={index} className="flex items-start gap-2">
+              <CheckCircle2 className="w-3.5 h-3.5 text-secondary mt-0.5 flex-shrink-0" />
+              <p className="text-xs text-secondary">{task}</p>
+            </div>
+          ))}
         </div>
       )}
     </div>

@@ -6,20 +6,16 @@ import ObservationCard from "@/components/ObservationCard";
 import Footer from "@/components/Footer";
 
 const Index = () => {
-  // Equipes do dia 25/02
-  const abertura25 = [{ name: "Balbina" }, { name: "Jordana" }, { name: "Ana Beatriz" }];
-
-  const fechamento25 = [{ name: "Daniela" }, { name: "Presbitera Cibele" }];
-
   // Equipes do dia 28/02
-  const abertura28 = [{ name: "Estefany" }, { name: "Balbina" }, { name: "Daniela" }];
+  const abertura28 = [{ name: "Balbina" }, { name: "Elaine" }, { name: "Sayonara" }];
+  const fechamento28 = [{ name: "Presbitera Cibele" }, { name: "Cris" }];
 
-  const fechamento28 = [{ name: "Cris" }, { name: "Ana Bia" }];
+  // Equipes do Dia do Acarajé (data a definir)
+  const aberturaAcaraje = [{ name: "Balbina" }, { name: "Daniela" }, { name: "Anita" }];
 
   const observations = [
-    "<strong>Dia 25/02:</strong> Abertura com Balbina, Jordana e Ana Beatriz | Fechamento com Daniela e Presbitera Cibele",
-    "<strong>Dia 28/02:</strong> Abertura com Estefany, Balbina e Daniela | Fechamento com Cris e Ana Bia",
-    "<strong>Orientadoras 25/02:</strong> Estefany Mayara (abertura) e Presb. Cibele (fechamento)",
+    "<strong>Dia 28/02:</strong> Abertura com Balbina, Elaine e Sayonara | Fechamento com Presb. Cibele e Cris",
+    "<strong>Dia do Acarajé:</strong> Abertura com Balbina, Daniela e Anita",
     "<strong>Orientadoras 28/02:</strong> Estefany (abertura) e Presb. Cibele (fechamento)",
     "<strong>Chegada Antecipada:</strong> Toda a equipe de abertura deve chegar <strong>1 hora antes</strong> do horário de culto para organizar a mesa das bijus",
   ];
@@ -57,16 +53,6 @@ const Index = () => {
             <span className="text-2xl">📅</span> Plantões
           </h2>
 
-          {/* 25/02 - Quarta-feira */}
-          <div className="space-y-4">
-            <DateBadge date="25/02" day="Quarta-feira" label="Semana" />
-
-            <div className="grid md:grid-cols-2 gap-4">
-              <ScheduleCard type="abertura" members={abertura25} orientadora="Estefany Mayara" showArrivalNote />
-              <ScheduleCard type="fechamento" members={fechamento25} orientadora="Presb. Cibele" />
-            </div>
-          </div>
-
           {/* 28/02 - Sábado */}
           <div className="space-y-4">
             <DateBadge date="28/02" day="Sábado" label="Fim de Semana" />
@@ -74,6 +60,15 @@ const Index = () => {
             <div className="grid md:grid-cols-2 gap-4">
               <ScheduleCard type="abertura" members={abertura28} orientadora="Estefany" showArrivalNote />
               <ScheduleCard type="fechamento" members={fechamento28} orientadora="Presb. Cibele" />
+            </div>
+          </div>
+
+          {/* Dia do Acarajé */}
+          <div className="space-y-4">
+            <DateBadge date="A definir" day="Dia do Acarajé" label="Evento Especial" />
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <ScheduleCard type="abertura" members={aberturaAcaraje} orientadora="Estefany" showArrivalNote />
             </div>
           </div>
         </section>

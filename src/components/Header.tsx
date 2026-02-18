@@ -17,15 +17,13 @@ const Header = ({ month, year }: HeaderProps) => {
 
       <div className="relative z-10 p-8 md:p-12 text-primary-foreground text-center">
         <div className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full bg-primary-foreground/15 backdrop-blur-md border border-primary-foreground/10">
-          <span className="text-sm font-medium tracking-wide">{month}/{year}</span>
+          <span className="text-sm font-medium tracking-wide">
+            {month}/{year}
+          </span>
         </div>
 
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 tracking-tight">
-          Escala da BIJU
-        </h1>
-        <p className="text-lg md:text-xl font-light opacity-90 mb-2">
-          Igreja Cristã — Ser Mulher
-        </p>
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 tracking-tight">Escala da BIJU</h1>
+        <p className="text-lg md:text-xl font-light opacity-90 mb-2">— Ser Mulher</p>
 
         <div className="flex justify-center items-center gap-2 mt-4">
           <div className="h-px w-12 bg-primary-foreground/30" />

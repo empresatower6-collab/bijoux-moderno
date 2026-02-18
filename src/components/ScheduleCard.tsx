@@ -46,8 +46,8 @@ const ScheduleCard = ({ type, members, orientadora, showArrivalNote }: ScheduleC
       
       {/* Orientadora */}
       <div className={`p-4 rounded-xl ${isAbertura ? 'bg-primary/5 border border-primary/20' : 'bg-secondary/5 border border-secondary/20'}`}>
-        <p className={`text-sm font-medium ${isAbertura ? 'text-primary' : 'text-secondary'}`}>
-          👩‍🏫 Orientadora: {orientadora}
+        <p className={`text-sm font-medium flex items-center gap-2 ${isAbertura ? 'text-primary' : 'text-secondary'}`}>
+          <Users className="w-4 h-4" /> Orientadora: {orientadora}
         </p>
         {showArrivalNote && (
           <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">

@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import InfoCard from "@/components/InfoCard";
+import backgroundImage from "@/assets/background.jpg";
 import DateBadge from "@/components/DateBadge";
 import ScheduleCard from "@/components/ScheduleCard";
 import ObservationCard from "@/components/ObservationCard";
@@ -12,17 +13,22 @@ const Index = () => {
 
   // Equipes do Dia do Acarajé (data a definir)
   const aberturaAcaraje = [{ name: "Balbina" }, { name: "Daniela" }, { name: "Anita" }];
+  const fechamentoAcaraje = [{ name: "Presbitera Cibele" }, { name: "Elaine" }];
 
   const observations = [
     "<strong>Dia 28/02:</strong> Abertura com Balbina, Elaine e Sayonara | Fechamento com Presb. Cibele e Cris",
-    "<strong>Dia do Acarajé:</strong> Abertura com Balbina, Daniela e Anita",
+    "<strong>Dia do Acarajé:</strong> Abertura com Balbina, Daniela e Anita | Fechamento com Presb. Cibele e Elaine",
     "<strong>Orientadoras 28/02:</strong> Estefany (abertura) e Presb. Cibele (fechamento)",
     "<strong>Chegada Antecipada:</strong> Toda a equipe de abertura deve chegar <strong>1 hora antes</strong> do horário de culto para organizar a mesa das bijus",
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background py-8 px-4 md:px-6">
-      <div className="max-w-3xl mx-auto space-y-8">
+    <div
+      className="min-h-screen py-8 px-4 md:px-6 bg-cover bg-center bg-fixed relative"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
+      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+      <div className="relative z-10 max-w-3xl mx-auto space-y-8">
         {/* Header */}
         <Header month="Fevereiro" year="2026" />
 
@@ -69,6 +75,7 @@ const Index = () => {
 
             <div className="grid md:grid-cols-2 gap-4">
               <ScheduleCard type="abertura" members={aberturaAcaraje} orientadora="Estefany" showArrivalNote />
+              <ScheduleCard type="fechamento" members={fechamentoAcaraje} orientadora="Presb. Cibele" />
             </div>
           </div>
         </section>

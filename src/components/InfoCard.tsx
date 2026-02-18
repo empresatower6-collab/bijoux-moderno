@@ -1,4 +1,4 @@
-import { DoorOpen, Lock, Clock, CheckCircle2 } from "lucide-react";
+import { DoorOpen, Lock, Clock, CheckCircle2, UserCheck } from "lucide-react";
 
 interface InfoCardProps {
   type: "abertura" | "fechamento";
@@ -25,8 +25,9 @@ const InfoCard = ({ type, description, orientadora, arrivalNote, additionalNote,
       
       <p className="text-muted-foreground text-sm mb-3">{description}</p>
       
-      <p className="text-sm font-medium text-foreground">
-        👩‍🏫 Orientadora: {orientadora}
+      <p className="text-sm font-medium text-foreground flex items-center gap-2">
+        <UserCheck className="w-4 h-4 text-primary" />
+        Orientadora: {orientadora}
       </p>
       
       {arrivalNote && (

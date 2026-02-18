@@ -5,6 +5,7 @@ import DateBadge from "@/components/DateBadge";
 import ScheduleCard from "@/components/ScheduleCard";
 import ObservationCard from "@/components/ObservationCard";
 import Footer from "@/components/Footer";
+import { CalendarDays } from "lucide-react";
 
 const Index = () => {
   // Equipes do dia 28/02
@@ -27,7 +28,7 @@ const Index = () => {
       className="min-h-screen py-8 px-4 md:px-6 bg-cover bg-center bg-fixed relative"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px]" />
       <div className="relative z-10 max-w-3xl mx-auto space-y-8">
         {/* Header */}
         <Header month="Fevereiro" year="2026" />
@@ -56,7 +57,7 @@ const Index = () => {
         {/* Plantões */}
         <section className="space-y-6">
           <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
-            <span className="text-2xl">📅</span> Plantões
+            <CalendarDays className="w-6 h-6 text-primary" /> Plantões
           </h2>
 
           {/* 28/02 - Sábado */}

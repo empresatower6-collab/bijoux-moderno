@@ -1,4 +1,4 @@
-import { Heart } from "lucide-react";
+import { Heart, Flower2, Sparkles } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -15,10 +15,12 @@ const Footer = () => {
           Que Deus Abençoe! <Heart className="w-5 h-5 fill-current" />
         </p>
         
-        <div className="flex justify-center items-center gap-4 text-3xl">
-          <span>💕</span>
-          <span className="animate-pulse">🌸</span>
-          <span>💕</span>
+        <div className="flex justify-center items-center gap-4">
+          <Heart className="w-5 h-5 fill-current opacity-80" />
+          <Flower2 className="w-6 h-6 animate-pulse opacity-90" />
+          <Sparkles className="w-5 h-5 opacity-80" />
+          <Flower2 className="w-6 h-6 animate-pulse opacity-90" />
+          <Heart className="w-5 h-5 fill-current opacity-80" />
         </div>
       </div>
     </footer>

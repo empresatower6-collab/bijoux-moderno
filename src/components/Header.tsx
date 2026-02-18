@@ -1,4 +1,4 @@
-import { Sparkles } from "lucide-react";
+import { Sparkles, Crown, Flower2 } from "lucide-react";
 
 interface HeaderProps {
   month: string;
@@ -35,10 +35,12 @@ const Header = ({ month, year }: HeaderProps) => {
           Ser Mulher
         </p>
         
-        <div className="flex justify-center items-center gap-3 text-2xl">
-          <span className="animate-pulse">✨</span>
-          <span>🌸</span>
-          <span className="animate-pulse delay-200">✨</span>
+        <div className="flex justify-center items-center gap-3">
+          <Sparkles className="w-5 h-5 animate-pulse opacity-80" />
+          <Flower2 className="w-6 h-6 opacity-90" />
+          <Crown className="w-5 h-5 opacity-80" />
+          <Flower2 className="w-6 h-6 opacity-90" />
+          <Sparkles className="w-5 h-5 animate-pulse opacity-80" />
         </div>
       </div>
     </header>

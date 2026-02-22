@@ -1,4 +1,4 @@
-import { Users, DoorOpen, Lock, Clock } from "lucide-react";
+import { Users, DoorOpen, Lock, Clock, Monitor } from "lucide-react";
 
 interface TeamMember {
   name: string;
@@ -8,10 +8,11 @@ interface ScheduleCardProps {
   type: "abertura" | "fechamento";
   members: TeamMember[];
   orientadora: string;
+  midia?: string;
   showArrivalNote?: boolean;
 }
 
-const ScheduleCard = ({ type, members, orientadora, showArrivalNote }: ScheduleCardProps) => {
+const ScheduleCard = ({ type, members, orientadora, midia, showArrivalNote }: ScheduleCardProps) => {
   const isAbertura = type === "abertura";
   
   return (
@@ -44,6 +45,15 @@ const ScheduleCard = ({ type, members, orientadora, showArrivalNote }: ScheduleC
         ))}
       </div>
       
+      {/* Mídia */}
+      {midia && (
+        <div className={`p-4 rounded-xl mb-3 ${isAbertura ? 'bg-accent/10 border border-accent/20' : 'bg-accent/10 border border-accent/20'}`}>
+          <p className="text-sm font-medium flex items-center gap-2 text-accent-foreground">
+            <Monitor className="w-4 h-4" /> Mídia: {midia}
+          </p>
+        </div>
+      )}
+
       {/* Orientadora */}
       <div className={`p-4 rounded-xl ${isAbertura ? 'bg-primary/5 border border-primary/20' : 'bg-secondary/5 border border-secondary/20'}`}>
         <p className={`text-sm font-medium flex items-center gap-2 ${isAbertura ? 'text-primary' : 'text-secondary'}`}>

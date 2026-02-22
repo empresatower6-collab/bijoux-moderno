@@ -65,7 +65,7 @@ const Index = () => {
             <DateBadge date="28/02" day="Sábado" label="Fim de Semana" />
 
             <div className="grid md:grid-cols-2 gap-4">
-              <ScheduleCard type="abertura" members={abertura28} orientadora="Estefany" showArrivalNote />
+              <ScheduleCard type="abertura" members={abertura28} orientadora="Estefany" midia="Raquel" showArrivalNote />
               <ScheduleCard type="fechamento" members={fechamento28} orientadora="Presb. Cibele" />
             </div>
           </div>
@@ -75,7 +75,7 @@ const Index = () => {
             <DateBadge date="A definir" day="Dia do Acarajé" label="Evento Especial" />
 
             <div className="grid md:grid-cols-2 gap-4">
-              <ScheduleCard type="abertura" members={aberturaAcaraje} orientadora="Estefany" showArrivalNote />
+              <ScheduleCard type="abertura" members={aberturaAcaraje} orientadora="Estefany" midia="Bia" showArrivalNote />
               <ScheduleCard type="fechamento" members={fechamentoAcaraje} orientadora="Presb. Cibele" />
             </div>
           </div>

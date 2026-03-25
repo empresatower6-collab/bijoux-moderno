@@ -31,7 +31,7 @@ const Index = () => {
       <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px]" />
       <div className="relative z-10 max-w-3xl mx-auto space-y-8">
         {/* Header */}
-        <Header month="Fevereiro" year="2026" />
+        <Header month="Março" year="2026" />
 
         {/* Informações Gerais */}
         <section className="grid md:grid-cols-2 gap-4">

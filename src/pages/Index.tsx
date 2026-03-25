@@ -62,7 +62,7 @@ const Index = () => {
 
           {/* 28/02 - Sábado */}
           <div className="space-y-4">
-            <DateBadge date="28/02" day="Sábado" label="Fim de Semana" />
+            <DateBadge date="28/03" day="Sábado" label="Fim de Semana" />
 
             <div className="grid md:grid-cols-2 gap-4">
               <ScheduleCard type="abertura" members={abertura28} orientadora="Estefany" midia="Raquel" showArrivalNote />

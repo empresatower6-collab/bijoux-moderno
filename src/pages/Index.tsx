@@ -9,17 +9,17 @@ import { CalendarDays } from "lucide-react";
 
 const Index = () => {
   // Equipes do dia 28/02
-  const abertura28 = [{ name: "Balbina" }, { name: "Elaine" }, { name: "Sayonara" }];
-  const fechamento28 = [{ name: "Presbitera Cibele" }, { name: "Cris" }];
+  const abertura28 = [{ name: "Anita" }, { name: "Balbina" }, { name: "Elaine" }, { name: "Ana" }];
+  const fechamento28 = [{ name: "Raquel" }, { name: "Dani" }, { name: "Cris" }, { name: "Estefany" }];
 
   // Equipes do Dia do Acarajé (data a definir)
   const aberturaAcaraje = [{ name: "Balbina" }, { name: "Daniela" }, { name: "Anita" }];
   const fechamentoAcaraje = [{ name: "Presbitera Cibele" }, { name: "Elaine" }];
 
   const observations = [
-    "<strong>Dia 28/02:</strong> Abertura com Balbina, Elaine e Sayonara | Fechamento com Presb. Cibele e Cris",
+    "<strong>Dia 28/03:</strong> Abertura com Anita, Balbina, Elaine e Ana | Fechamento com Raquel, Dani, Cris e Estefany",
     "<strong>Dia do Acarajé:</strong> Abertura com Balbina, Daniela e Anita | Fechamento com Presb. Cibele e Elaine",
-    "<strong>Orientadoras 28/02:</strong> Estefany (abertura) e Presb. Cibele (fechamento)",
+    "<strong>Orientadoras 28/03:</strong> Estefany (abertura) e Presb. Cibele (fechamento)",
     "<strong>Chegada Antecipada:</strong> Toda a equipe de abertura deve chegar <strong>1 hora antes</strong> do horário de culto para organizar a mesa das bijus",
   ];
 
@@ -31,7 +31,7 @@ const Index = () => {
       <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px]" />
       <div className="relative z-10 max-w-3xl mx-auto space-y-8">
         {/* Header */}
-        <Header month="Fevereiro" year="2026" />
+        <Header month="Março" year="2026" />
 
         {/* Informações Gerais */}
         <section className="grid md:grid-cols-2 gap-4">
@@ -62,10 +62,10 @@ const Index = () => {
 
           {/* 28/02 - Sábado */}
           <div className="space-y-4">
-            <DateBadge date="28/02" day="Sábado" label="Fim de Semana" />
+            <DateBadge date="28/03" day="Sábado" label="Fim de Semana" />
 
             <div className="grid md:grid-cols-2 gap-4">
-              <ScheduleCard type="abertura" members={abertura28} orientadora="Estefany" midia="Raquel" showArrivalNote />
+              <ScheduleCard type="abertura" members={abertura28} orientadora="Estefany" midia="Bia" showArrivalNote />
               <ScheduleCard type="fechamento" members={fechamento28} orientadora="Presb. Cibele" />
             </div>
           </div>

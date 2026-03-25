@@ -9,8 +9,8 @@ import { CalendarDays } from "lucide-react";
 
 const Index = () => {
   // Equipes do dia 28/02
-  const abertura28 = [{ name: "Balbina" }, { name: "Elaine" }, { name: "Sayonara" }];
-  const fechamento28 = [{ name: "Presbitera Cibele" }, { name: "Cris" }];
+  const abertura28 = [{ name: "Anita" }, { name: "Balbina" }, { name: "Elaine" }, { name: "Ana" }];
+  const fechamento28 = [{ name: "Raquel" }, { name: "Dani" }, { name: "Cris" }, { name: "Estefany" }];
 
   // Equipes do Dia do Acarajé (data a definir)
   const aberturaAcaraje = [{ name: "Balbina" }, { name: "Daniela" }, { name: "Anita" }];

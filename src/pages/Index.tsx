@@ -17,9 +17,9 @@ const Index = () => {
   const fechamentoAcaraje = [{ name: "Presbitera Cibele" }, { name: "Elaine" }];
 
   const observations = [
-    "<strong>Dia 28/02:</strong> Abertura com Balbina, Elaine e Sayonara | Fechamento com Presb. Cibele e Cris",
+    "<strong>Dia 28/03:</strong> Abertura com Anita, Balbina, Elaine e Ana | Fechamento com Raquel, Dani, Cris e Estefany",
     "<strong>Dia do Acarajé:</strong> Abertura com Balbina, Daniela e Anita | Fechamento com Presb. Cibele e Elaine",
-    "<strong>Orientadoras 28/02:</strong> Estefany (abertura) e Presb. Cibele (fechamento)",
+    "<strong>Orientadoras 28/03:</strong> Estefany (abertura) e Presb. Cibele (fechamento)",
     "<strong>Chegada Antecipada:</strong> Toda a equipe de abertura deve chegar <strong>1 hora antes</strong> do horário de culto para organizar a mesa das bijus",
   ];
 

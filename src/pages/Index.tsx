@@ -12,13 +12,13 @@ const Index = () => {
   const abertura28 = [{ name: "Anita" }, { name: "Balbina" }, { name: "Elaine" }, { name: "Ana" }];
   const fechamento28 = [{ name: "Raquel" }, { name: "Dani" }, { name: "Cris" }, { name: "Estefany" }];
 
-  // Equipes do Dia do Acarajé (data a definir)
-  const aberturaAcaraje = [{ name: "Balbina" }, { name: "Daniela" }, { name: "Anita" }];
-  const fechamentoAcaraje = [{ name: "Presbitera Cibele" }, { name: "Elaine" }];
+  // Equipes do dia 08/04 - Troca de Mentoria
+  const aberturaMentoria = [{ name: "Anita" }, { name: "Balbina" }, { name: "Elaine" }];
+  const fechamentoMentoria = [{ name: "Presb. Cibele" }, { name: "Raquel" }];
 
   const observations = [
     "<strong>Dia 28/03:</strong> Abertura com Anita, Balbina, Elaine e Ana | Fechamento com Raquel, Dani, Cris e Estefany",
-    "<strong>Dia do Acarajé:</strong> Abertura com Balbina, Daniela e Anita | Fechamento com Presb. Cibele e Elaine",
+    "<strong>Dia 08/04 — Troca de Mentoria:</strong> Abertura com Anita, Balbina e Elaine | Fechamento com Presb. Cibele e Raquel",
     "<strong>Orientadoras 28/03:</strong> Estefany (abertura) e Presb. Cibele (fechamento)",
     "<strong>Chegada Antecipada:</strong> Toda a equipe de abertura deve chegar <strong>1 hora antes</strong> do horário de culto para organizar a mesa das bijus",
   ];
@@ -70,13 +70,13 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Dia do Acarajé */}
+          {/* 08/04 - Troca de Mentoria */}
           <div className="space-y-4">
-            <DateBadge date="A definir" day="Dia do Acarajé" label="Evento Especial" />
+            <DateBadge date="08/04" day="Terça-feira" label="Troca de Mentoria" />
 
             <div className="grid md:grid-cols-2 gap-4">
-              <ScheduleCard type="abertura" members={aberturaAcaraje} orientadora="Estefany" midia="Bia" showArrivalNote />
-              <ScheduleCard type="fechamento" members={fechamentoAcaraje} orientadora="Presb. Cibele" />
+              <ScheduleCard type="abertura" members={aberturaMentoria} orientadora="Estefany" midia="Bia" showArrivalNote />
+              <ScheduleCard type="fechamento" members={fechamentoMentoria} orientadora="Presb. Cibele" />
             </div>
           </div>
         </section>

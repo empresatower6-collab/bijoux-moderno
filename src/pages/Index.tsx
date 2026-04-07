@@ -25,16 +25,16 @@ const Index = () => {
 
   return (
     <div
-      className="min-h-screen py-8 px-4 md:px-6 bg-cover bg-center bg-fixed relative"
+      className="min-h-screen py-4 px-3 sm:py-8 sm:px-4 md:px-6 bg-cover bg-center bg-fixed relative"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px]" />
-      <div className="relative z-10 max-w-3xl mx-auto space-y-8">
+      <div className="relative z-10 max-w-3xl mx-auto space-y-5 sm:space-y-8">
         {/* Header */}
         <Header month="Março" year="2026" />
 
         {/* Informações Gerais */}
-        <section className="grid md:grid-cols-2 gap-4">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <InfoCard
             type="abertura"
             description="3 pessoas responsáveis por receber e acolher"
@@ -55,26 +55,26 @@ const Index = () => {
         </section>
 
         {/* Plantões */}
-        <section className="space-y-6">
-          <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+        <section className="space-y-5 sm:space-y-6">
+          <h2 className="text-lg sm:text-xl font-bold text-foreground flex items-center gap-2">
             <CalendarDays className="w-6 h-6 text-primary" /> Plantões
           </h2>
 
           {/* 28/02 - Sábado */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             <DateBadge date="28/03" day="Sábado" label="Fim de Semana" />
 
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <ScheduleCard type="abertura" members={abertura28} orientadora="Estefany" midia="Bia" showArrivalNote />
               <ScheduleCard type="fechamento" members={fechamento28} orientadora="Presb. Cibele" />
             </div>
           </div>
 
           {/* 08/04 - Troca de Mentoria */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             <DateBadge date="08/04" day="Terça-feira" label="Troca de Mentoria" />
 
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <ScheduleCard type="abertura" members={aberturaMentoria} orientadora="Estefany" midia="Bia" showArrivalNote />
               <ScheduleCard type="fechamento" members={fechamentoMentoria} orientadora="Presb. Cibele" />
             </div>

@@ -1,4 +1,4 @@
-import { DoorOpen, Lock, Clock, CheckCircle2, UserCheck, Sparkles } from "lucide-react";
+import { DoorOpen, Lock, Clock, CheckCircle2, UserCheck } from "lucide-react";
 
 interface InfoCardProps {
   type: "abertura" | "fechamento";
@@ -30,7 +30,7 @@ const InfoCard = ({ type, description, orientadora, arrivalNote, additionalNote,
               {isAbertura ? "Abertura" : "Fechamento"}
             </h3>
           </div>
-          <Sparkles className={`w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-0 group-hover:opacity-50 transition-opacity duration-500 ${isAbertura ? 'text-primary' : 'text-secondary'}`} />
+          
         </div>
         
         <p className="text-muted-foreground text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed">{description}</p>

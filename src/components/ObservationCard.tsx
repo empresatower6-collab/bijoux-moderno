@@ -1,4 +1,4 @@
-import { AlertCircle, Check, Sparkles } from "lucide-react";
+import { AlertCircle, Check } from "lucide-react";
 
 interface ObservationCardProps {
   items: string[];
@@ -19,7 +19,7 @@ const ObservationCard = ({ items }: ObservationCardProps) => {
           <h2 className="text-base sm:text-xl font-bold text-card-foreground tracking-tight">
             Observações Importantes
           </h2>
-          <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary/40 ml-auto" />
+          
         </div>
         
         <ul className="space-y-3 sm:space-y-4">

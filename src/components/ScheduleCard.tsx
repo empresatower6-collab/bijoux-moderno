@@ -1,4 +1,4 @@
-import { Users, DoorOpen, Lock, Clock, Monitor, Sparkles } from "lucide-react";
+import { Users, DoorOpen, Lock, Clock, Monitor } from "lucide-react";
 
 interface TeamMember {
   name: string;
@@ -37,7 +37,7 @@ const ScheduleCard = ({ type, members, orientadora, midia, showArrivalNote }: Sc
               <p className="text-[10px] sm:text-xs text-muted-foreground">{members.length} membros</p>
             </div>
           </div>
-          <Sparkles className={`w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-0 group-hover:opacity-60 transition-opacity duration-500 ${isAbertura ? 'text-primary' : 'text-secondary'}`} />
+          
         </div>
         
         {/* Team members */}

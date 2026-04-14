@@ -13,8 +13,8 @@ const Index = () => {
   const fechamento28 = [{ name: "Raquel" }, { name: "Dani" }, { name: "Cris" }, { name: "Estefany" }];
 
   // Equipes do dia 17/04 - Venda do Acarajé
-  const abertura17 = [{ name: "Balbina" }, { name: "Elaine" }];
-  const fechamento17 = [{ name: "Cris" }, { name: "Anita" }];
+  const abertura17 = [{ name: "Anita" }, { name: "Cris" }];
+  const fechamento17 = [{ name: "Elaine" }, { name: "Estefany" }];
 
   // Equipes do dia 25/04 - Culto de Mulheres
   const abertura25 = [{ name: "Daniela" }, { name: "Ana" }];
@@ -22,7 +22,7 @@ const Index = () => {
 
   const observations = [
     "<strong>Dia 28/03:</strong> Abertura com Anita, Balbina, Elaine e Ana | Fechamento com Raquel, Dani, Cris e Estefany",
-    "<strong>Dia 17/04 (Acarajé):</strong> Abertura com Balbina e Elaine | Fechamento com Cris e Anita",
+    "<strong>Dia 17/04 (Acarajé):</strong> Abertura com Anita e Cris | Fechamento com Elaine e Estefany",
     "<strong>Dia 25/04 (Culto de Mulheres):</strong> Abertura com Daniela e Ana | Fechamento com Bia e Presb. Cibele",
     "<strong>Orientadoras:</strong> Estefany (abertura) e Presb. Cibele (fechamento)",
     "<strong>Chegada Antecipada:</strong> Toda a equipe de abertura deve chegar <strong>1 hora antes</strong> do horário de culto para organizar a mesa das bijus",

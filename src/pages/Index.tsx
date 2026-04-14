@@ -94,6 +94,10 @@ const Index = () => {
               <ScheduleCard type="fechamento" members={fechamento25} orientadora="Presb. Cibele" />
             </div>
           </div>
+        </section>
+
+        {/* Observações */}
+        <ObservationCard items={observations} />
 
         {/* Footer */}
         <Footer />

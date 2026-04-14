@@ -75,19 +75,25 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Dia do Acarajé */}
+          {/* 17/04 - Sexta - Venda do Acarajé */}
           <div className="space-y-4">
-            <DateBadge date="A definir" day="Dia do Acarajé" label="Evento Especial" />
+            <DateBadge date="17/04" day="Sexta-feira" label="Venda do Acarajé" />
 
             <div className="grid md:grid-cols-2 gap-4">
-              <ScheduleCard type="abertura" members={aberturaAcaraje} orientadora="Estefany" midia="Bia" showArrivalNote />
-              <ScheduleCard type="fechamento" members={fechamentoAcaraje} orientadora="Presb. Cibele" />
+              <ScheduleCard type="abertura" members={abertura17} orientadora="Estefany" midia="Raquel" showArrivalNote />
+              <ScheduleCard type="fechamento" members={fechamento17} orientadora="Presb. Cibele" />
             </div>
           </div>
-        </section>
 
-        {/* Observações */}
-        <ObservationCard items={observations} />
+          {/* 25/04 - Sábado - Culto de Mulheres */}
+          <div className="space-y-4">
+            <DateBadge date="25/04" day="Sábado" label="Culto de Mulheres" />
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <ScheduleCard type="abertura" members={abertura25} orientadora="Estefany" midia="Bia" showArrivalNote />
+              <ScheduleCard type="fechamento" members={fechamento25} orientadora="Presb. Cibele" />
+            </div>
+          </div>
 
         {/* Footer */}
         <Footer />

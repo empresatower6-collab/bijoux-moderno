@@ -36,7 +36,7 @@ const Index = () => {
       <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px]" />
       <div className="relative z-10 max-w-3xl mx-auto space-y-8">
         {/* Header */}
-        <Header month="Março" year="2026" />
+        <Header month="Maio" year="2026" />
 
         {/* Informações Gerais */}
         <section className="grid md:grid-cols-2 gap-4">
@@ -65,9 +65,9 @@ const Index = () => {
             <CalendarDays className="w-6 h-6 text-primary" /> Plantões
           </h2>
 
-          {/* 28/02 - Sábado */}
+          {/* 28/05 - Sábado */}
           <div className="space-y-4">
-            <DateBadge date="28/03" day="Sábado" label="Fim de Semana" />
+            <DateBadge date="28/05" day="Sábado" label="Fim de Semana" />
 
             <div className="grid md:grid-cols-2 gap-4">
               <ScheduleCard type="abertura" members={abertura28} orientadora="Estefany" midia="Raquel" showArrivalNote />
@@ -75,9 +75,9 @@ const Index = () => {
             </div>
           </div>
 
-          {/* 17/04 - Sexta - Venda do Acarajé */}
+          {/* 29/05 - Sexta - Venda do Acarajé */}
           <div className="space-y-4">
-            <DateBadge date="17/04" day="Sexta-feira" label="Venda do Acarajé" />
+            <DateBadge date="29/05" day="Sexta-feira" label="Venda do Acarajé" />
 
             <div className="grid md:grid-cols-2 gap-4">
               <ScheduleCard type="abertura" members={abertura17} orientadora="Estefany" midia="Bia" showArrivalNote />
@@ -85,9 +85,9 @@ const Index = () => {
             </div>
           </div>
 
-          {/* 25/04 - Sábado - Culto de Mulheres */}
+          {/* 25/05 - Sábado - Culto de Mulheres */}
           <div className="space-y-4">
-            <DateBadge date="25/04" day="Sábado" label="Culto de Mulheres" />
+            <DateBadge date="25/05" day="Sábado" label="Culto de Mulheres" />
 
             <div className="grid md:grid-cols-2 gap-4">
               <ScheduleCard type="abertura" members={abertura25} orientadora="Estefany" midia="Bia" showArrivalNote />

@@ -8,21 +8,21 @@ import Footer from "@/components/Footer";
 import { CalendarDays } from "lucide-react";
 
 const Index = () => {
-  // Equipes do dia 28/03
+  // Equipes do dia 28/07
   const abertura28 = [{ name: "Anita" }, { name: "Balbina" }, { name: "Elaine" }, { name: "Ana" }];
   const fechamento28 = [{ name: "Raquel" }, { name: "Dani" }, { name: "Cris" }, { name: "Estefany" }];
 
-  // Equipes do dia 17/04 - Venda do Acarajé
-  const abertura17 = [{ name: "Anita" }, { name: "Cris" }];
-  const fechamento17 = [{ name: "Elaine" }, { name: "Estefany" }];
+  // Equipes do dia 29/07 - Venda do Acarajé
+  const abertura29 = [{ name: "Anita" }, { name: "Cris" }];
+  const fechamento29 = [{ name: "Elaine" }, { name: "Estefany" }];
 
   // Equipes do dia 25/07 - Culto de Mulheres
   const abertura25 = [{ name: "Balbina" }, { name: "Elaine" }];
   const fechamento25 = [{ name: "Cris" }, { name: "Anita" }];
 
   const observations = [
-    "<strong>Dia 28/05:</strong> Abertura com Anita, Balbina, Elaine e Ana | Fechamento com Raquel, Dani, Cris e Estefany",
-    "<strong>Dia 29/05 (Acarajé):</strong> Abertura com Anita e Cris | Fechamento com Elaine e Estefany",
+    "<strong>Dia 28/07:</strong> Abertura com Anita, Balbina, Elaine e Ana | Fechamento com Raquel, Dani, Cris e Estefany",
+    "<strong>Dia 29/07 (Acarajé):</strong> Abertura com Anita e Cris | Fechamento com Elaine e Estefany",
     "<strong>Dia 25/07 (Culto de Mulheres):</strong> Abertura com Balbina e Elaine | Fechamento com Cris e Anita",
     "<strong>Orientadoras:</strong> Estefany (abertura) e Presb. Cibele (fechamento)",
     "<strong>Chegada Antecipada:</strong> Toda a equipe de abertura deve chegar <strong>1 hora antes</strong> do horário de culto para organizar a mesa das bijus",
@@ -36,7 +36,7 @@ const Index = () => {
       <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px]" />
       <div className="relative z-10 max-w-3xl mx-auto space-y-8">
         {/* Header */}
-        <Header month="Maio" year="2026" />
+        <Header month="Julho" year="2026" />
 
         {/* Informações Gerais */}
         <section className="grid md:grid-cols-2 gap-4">
@@ -65,9 +65,9 @@ const Index = () => {
             <CalendarDays className="w-6 h-6 text-primary" /> Plantões
           </h2>
 
-          {/* 28/05 - Sábado */}
+          {/* 28/07 - Sábado */}
           <div className="space-y-4">
-            <DateBadge date="28/05" day="Sábado" label="Fim de Semana" />
+            <DateBadge date="28/07" day="Sábado" label="Fim de Semana" />
 
             <div className="grid md:grid-cols-2 gap-4">
               <ScheduleCard type="abertura" members={abertura28} orientadora="Estefany" midia="Raquel" showArrivalNote />
@@ -75,13 +75,13 @@ const Index = () => {
             </div>
           </div>
 
-          {/* 29/05 - Sexta - Venda do Acarajé */}
+          {/* 29/07 - Sexta - Venda do Acarajé */}
           <div className="space-y-4">
-            <DateBadge date="29/05" day="Sexta-feira" label="Venda do Acarajé" />
+            <DateBadge date="29/07" day="Sexta-feira" label="Venda do Acarajé" />
 
             <div className="grid md:grid-cols-2 gap-4">
-              <ScheduleCard type="abertura" members={abertura17} orientadora="Estefany" midia="Bia" showArrivalNote />
-              <ScheduleCard type="fechamento" members={fechamento17} orientadora="Presb. Cibele" />
+              <ScheduleCard type="abertura" members={abertura29} orientadora="Estefany" midia="Bia" showArrivalNote />
+              <ScheduleCard type="fechamento" members={fechamento29} orientadora="Presb. Cibele" />
             </div>
           </div>
 

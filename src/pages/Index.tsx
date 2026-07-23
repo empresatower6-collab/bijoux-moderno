@@ -8,21 +8,11 @@ import Footer from "@/components/Footer";
 import { CalendarDays } from "lucide-react";
 
 const Index = () => {
-  // Equipes do dia 28/07
-  const abertura28 = [{ name: "Anita" }, { name: "Balbina" }, { name: "Elaine" }, { name: "Ana" }];
-  const fechamento28 = [{ name: "Raquel" }, { name: "Dani" }, { name: "Cris" }, { name: "Estefany" }];
-
-  // Equipes do dia 29/07 - Venda do Acarajé
-  const abertura29 = [{ name: "Anita" }, { name: "Cris" }];
-  const fechamento29 = [{ name: "Elaine" }, { name: "Estefany" }];
-
   // Equipes do dia 25/07 - Culto de Mulheres
   const abertura25 = [{ name: "Balbina" }, { name: "Elaine" }];
   const fechamento25 = [{ name: "Cris" }, { name: "Anita" }];
 
   const observations = [
-    "<strong>Dia 28/07:</strong> Abertura com Anita, Balbina, Elaine e Ana | Fechamento com Raquel, Dani, Cris e Estefany",
-    "<strong>Dia 29/07 (Acarajé):</strong> Abertura com Anita e Cris | Fechamento com Elaine e Estefany",
     "<strong>Dia 25/07 (Culto de Mulheres):</strong> Abertura com Balbina e Elaine | Fechamento com Cris e Anita",
     "<strong>Orientadoras:</strong> Estefany (abertura) e Presb. Cibele (fechamento)",
     "<strong>Chegada Antecipada:</strong> Toda a equipe de abertura deve chegar <strong>1 hora antes</strong> do horário de culto para organizar a mesa das bijus",
@@ -64,26 +54,6 @@ const Index = () => {
           <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
             <CalendarDays className="w-6 h-6 text-primary" /> Plantões
           </h2>
-
-          {/* 28/07 - Sábado */}
-          <div className="space-y-4">
-            <DateBadge date="28/07" day="Sábado" label="Fim de Semana" />
-
-            <div className="grid md:grid-cols-2 gap-4">
-              <ScheduleCard type="abertura" members={abertura28} orientadora="Estefany" midia="Raquel" showArrivalNote />
-              <ScheduleCard type="fechamento" members={fechamento28} orientadora="Presb. Cibele" />
-            </div>
-          </div>
-
-          {/* 29/07 - Sexta - Venda do Acarajé */}
-          <div className="space-y-4">
-            <DateBadge date="29/07" day="Sexta-feira" label="Venda do Acarajé" />
-
-            <div className="grid md:grid-cols-2 gap-4">
-              <ScheduleCard type="abertura" members={abertura29} orientadora="Estefany" midia="Bia" showArrivalNote />
-              <ScheduleCard type="fechamento" members={fechamento29} orientadora="Presb. Cibele" />
-            </div>
-          </div>
 
           {/* 25/07 - Sábado - Culto de Mulheres */}
           <div className="space-y-4">

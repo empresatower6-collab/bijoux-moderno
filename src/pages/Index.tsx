@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import InfoCard from "@/components/InfoCard";
 import backgroundImage from "@/assets/background.jpg";
@@ -5,18 +7,28 @@ import DateBadge from "@/components/DateBadge";
 import ScheduleCard from "@/components/ScheduleCard";
 import ObservationCard from "@/components/ObservationCard";
 import Footer from "@/components/Footer";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Settings } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { defaultSchedule, type ScheduleData } from "@/lib/escala";
 
 const Index = () => {
-  // Equipes do dia 25/07 - Culto de Mulheres
-  const abertura25 = [{ name: "Balbina" }, { name: "Elaine" }];
-  const fechamento25 = [{ name: "Cris" }, { name: "Anita" }];
+  const [schedule, setSchedule] = useState<ScheduleData>(defaultSchedule);
 
-  const observations = [
-    "<strong>Dia 25/07 (Culto de Mulheres):</strong> Abertura com Balbina e Elaine | Fechamento com Cris e Anita",
-    "<strong>Orientadoras:</strong> Estefany (abertura) e Presb. Cibele (fechamento)",
-    "<strong>Chegada Antecipada:</strong> Toda a equipe de abertura deve chegar <strong>1 hora antes</strong> do horário de culto para organizar a mesa das bijus",
-  ];
+  useEffect(() => {
+    let active = true;
+    supabase
+      .from("escala")
+      .select("data")
+      .order("updated_at", { ascending: false })
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (active && data?.data) setSchedule(data.data as unknown as ScheduleData);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   return (
     <div
@@ -26,7 +38,8 @@ const Index = () => {
       <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px]" />
       <div className="relative z-10 max-w-3xl mx-auto space-y-8">
         {/* Header */}
-        <Header month="Julho" year="2026" />
+        <Header month={schedule.month} year={schedule.year} />
+
 
         {/* Informações Gerais */}
         <section className="grid md:grid-cols-2 gap-4">

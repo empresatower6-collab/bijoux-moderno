@@ -87,6 +87,9 @@ const Admin = () => {
             <Button variant="outline" onClick={() => navigate("/")}>
               <ArrowLeft className="w-4 h-4" /> Ver escala
             </Button>
+            <Button variant="outline" onClick={() => window.open("/painel.html", "_blank")}>
+              <ShieldCheck className="w-4 h-4" /> Painel completo
+            </Button>
             <Button variant="outline" onClick={signOut}>
               <LogOut className="w-4 h-4" /> Sair
             </Button>

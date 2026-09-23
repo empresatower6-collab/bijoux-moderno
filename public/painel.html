@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0058e6">
+<title>Painel da Escala</title>
+<!--
+  Painel da Escala - Ser Mulher (mesa das bijus)
+  Arquivo unico, HTML/CSS/JS puro. Servido direto de /public pelo Vite.
+  Sem build, sem framework. Editar este arquivo = editar o painel.
+
+  A chave abaixo e a PUBLISHABLE key do Supabase (sb_publishable_...).
+  Ela e publica por design: ja vai no bundle servido a todo visitante e o
+  que protege os dados e o RLS no servidor, nao o sigilo da chave.
+  NUNCA colocar aqui a service_role key.
+-->
+<style>
+/* ============================================================
+   WINDOWS XP (Luna) - tema
+   ============================================================ */
+:root{
+  --xp-face:#ece9d8;
+  --xp-face-dark:#d4d0c8;
+  --xp-blue:#0a246a;
+  --xp-title-1:#0058ee;
+  --xp-title-2:#3a93ff;
+  --xp-border:#7f9db9;
+  --xp-text:#000;
+  --xp-grey:#808080;
+  --xp-red:#cc0000;
+  --xp-green:#008000;
+  --xp-gold:#e5a52c;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:#3a6ea5;
+  background-image:
+    linear-gradient(180deg,#1c4f8b 0%,#3a6ea5 42%,#5b8ec4 62%,#35689e 100%);
+  font-family:Tahoma,Verdana,Geneva,sans-serif;
+  font-size:12px;
+  color:var(--xp-text);
+  min-height:100vh;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:8px;
+}
+@media(min-width:560px){ body{align-items:center;padding:18px} }
+
+/* ---------- janela ---------- */
+.win{
+  width:100%;
+  max-width:470px;
+  background:var(--xp-face);
+  border:1px solid #0831d9;
+  border-radius:8px 8px 0 0;
+  box-shadow:2px 3px 14px rgba(0,0,0,.45);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  max-height:calc(100vh - 16px);
+}
+@media(min-width:560px){ .win{max-height:calc(100vh - 36px)} }
+
+.titlebar{
+  display:flex;align-items:center;gap:6px;
+  padding:4px 4px 4px 6px;
+  background:linear-gradient(180deg,#0058ee 0%,#3593ff 3%,#288eff 6%,#036ffc 10%,#0054e3 20%,#0055eb 55%,#006aff 72%,#0063f5 86%,#0049b6 93%,#0038a1 100%);
+  color:#fff;
+  font-weight:bold;
+  font-size:12px;
+  text-shadow:1px 1px 1px rgba(0,0,0,.5);
+  user-select:none;
+}
+.titlebar .t-icon{
+  width:16px;height:16px;flex:0 0 16px;
+  border-radius:2px;
+  background:linear-gradient(135deg,#fff3c4,#e8b93c 55%,#a8761a);
+  border:1px solid #fff;
+}
+.titlebar .t-text{
+  flex:1;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  padding-left:2px;
+}
+.t-btns{display:flex;gap:2px;flex:0 0 auto}
+.t-btn{
+  width:22px;height:20px;
+  border:1px solid #fff;
+  border-radius:3px;
+  color:#fff;
+  font-family:"Marlett",Tahoma,sans-serif;
+  font-size:11px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  background:linear-gradient(180deg,#4a9bff,#0a5fd6 50%,#034bb5);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45);
+  padding:0;
+}
+.t-btn.close{background:linear-gradient(180deg,#f08e7f,#dd6046 45%,#b73221);font-weight:bold}
+
+/* ---------- corpo ---------- */
+.win-body{
+  background:var(--xp-face);
+  padding:8px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  flex:1 1 auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* ---------- abas ---------- */
+.tabs{
+  display:flex;gap:3px;
+  padding:6px 6px 0;
+  background:var(--xp-face);
+  overflow-x:auto;
+  flex:0 0 auto;
+  scrollbar-width:none;
+}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex:0 0 auto;
+  padding:6px 11px;
+  font-size:11px;
+  font-family:inherit;
+  border:1px solid #8ba6c1;
+  border-bottom:none;
+  border-radius:4px 4px 0 0;
+  background:linear-gradient(180deg,#fdfdfd,#dedad0 55%,#cfcabe);
+  color:#000;
+  cursor:pointer;
+  position:relative;
+  top:1px;
+  white-space:nowrap;
+}
+.tab.on{
+  background:#ece9d8;
+  font-weight:bold;
+  top:2px;
+  padding-bottom:7px;
+}
+.tab-panel{display:none}
+.tab-panel.on{display:block}
+.tabrule{border-top:1px solid #fff;box-shadow:0 -1px 0 #a0a0a0;margin:0 0 10px}
+
+/* ---------- fieldset (grupo) ---------- */
+fieldset{
+  border:1px solid #d4d0c8;
+  border-top-color:#fff;
+  border-left-color:#fff;
+  border-radius:3px;
+  padding:8px 9px 11px;
+  margin:0 0 10px;
+  background:transparent;
+}
+legend{
+  font-weight:bold;
+  font-size:11px;
+  color:#00309c;
+  padding:0 4px;
+  margin-left:2px;
+}
+legend.danger{color:var(--xp-red)}
+
+/* ---------- campos ---------- */
+.row{display:flex;gap:6px;margin-bottom:7px}
+.row>*{min-width:0}
+.f{flex:1 1 auto}
+label.lb{
+  display:block;
+  font-size:11px;
+  margin:0 0 3px 1px;
+  color:#000;
+}
+label.lb u{text-decoration:underline}
+input[type=text],input[type=email],input[type=password],textarea{
+  width:100%;
+  font-family:Tahoma,Verdana,sans-serif;
+  font-size:16px;
+  color:#000;
+  background:#fff;
+  border:1px solid var(--xp-border);
+  border-radius:0;
+  padding:5px 6px;
+  min-height:34px;
+  outline:none;
+}
+textarea{
+  font-size:14px;
+  line-height:1.45;
+  resize:vertical;
+  min-height:64px;
+}
+input:focus,textarea:focus{
+  border-color:#316ac5;
+  background:#fffbe6;
+}
+input::placeholder,textarea::placeholder{color:#a0a0a0;font-size:12px}
+.hint{
+  font-size:10px;
+  color:#5a5a5a;
+  margin:-4px 0 8px 1px;
+  line-height:1.4;
+}
+
+/* ---------- botoes XP ---------- */
+button{
+  font-family:Tahoma,Verdana,sans-serif;
+  font-size:12px;
+  min-height:32px;
+  padding:4px 10px;
+  color:#000;
+  cursor:pointer;
+  border:1px solid #7a96b5;
+  border-radius:3px;
+  background:linear-gradient(180deg,#fff 0%,#f3f2ed 45%,#e6e4db 46%,#dedcd3 100%);
+  box-shadow:inset 0 1px 0 #fff, inset 0 -1px 0 #cfccc2;
+  white-space:nowrap;
+}
+button:hover{
+  border-color:var(--xp-gold);
+  box-shadow:0 0 4px #f5c04d, inset 0 1px 0 #fff;
+}
+button:active{
+  background:linear-gradient(180deg,#dcdad1,#e6e4db 50%,#f2f1ec);
+  border-color:var(--xp-gold);
+  box-shadow:inset 1px 1px 2px rgba(0,0,0,.18);
+}
+button:disabled{color:var(--xp-grey);text-shadow:1px 1px 0 #fff;cursor:default;border-color:#b8b4aa;box-shadow:none}
+button.prim{font-weight:bold;border-color:#003c74}
+button.sm{min-height:28px;font-size:11px;padding:2px 8px}
+button.x{
+  min-height:32px;min-width:32px;padding:0 8px;
+  font-weight:bold;font-size:13px;line-height:1;
+  color:#7b1a0d;
+}
+button.add{
+  width:100%;
+  border-style:dashed;
+  color:#00429c;
+  font-size:11px;
+}
+
+/* ---------- lista de nomes ---------- */
+.name-row{display:flex;gap:5px;margin-bottom:5px;align-items:center}
+.name-row input{flex:1}
+.badge{
+  flex:0 0 auto;
+  font-size:10px;
+  padding:2px 5px;
+  background:#e8e4d8;
+  border:1px solid #c8c4b8;
+  color:#444;
+  white-space:nowrap;
+}
+
+/* ---------- avisos ---------- */
+.notice{
+  border:1px solid #c8c4b8;
+  background:#ffffe1;
+  padding:7px 8px;
+  margin:0 0 10px;
+  font-size:11px;
+  line-height:1.5;
+  display:flex;
+  gap:7px;
+  align-items:flex-start;
+  border-radius:2px;
+}
+.notice.warn{background:#fff3cd;border-color:#e0b400}
+.notice.err{background:#ffe3e0;border-color:#d0513a;color:#6b1a0d}
+.notice .ic{
+  flex:0 0 16px;width:16px;height:16px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#5a9bff,#0a3f9e);
+  color:#fff;font-size:11px;font-weight:bold;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid #fff;line-height:1;
+}
+.notice.warn .ic{background:radial-gradient(circle at 35% 30%,#ffd34d,#c88a00)}
+.notice.err .ic{background:radial-gradient(circle at 35% 30%,#ff8a72,#a52208)}
+
+/* ---------- taskbar ---------- */
+.taskbar{
+  flex:0 0 auto;
+  display:flex;align-items:center;gap:5px;
+  padding:4px 5px;
+  background:linear-gradient(180deg,#245edb 0%,#3f8cf3 9%,#245edb 18%,#1941a5 92%,#1941a5 100%);
+  border-top:1px solid #0b3fa8;
+  color:#fff;
+}
+.start{
+  display:flex;align-items:center;gap:5px;
+  min-height:30px;
+  padding:2px 12px 2px 8px;
+  border:none;
+  border-radius:0 14px 14px 0;
+  background:linear-gradient(180deg,#5fb45f 0%,#3c9a3c 45%,#216821 100%);
+  color:#fff;
+  font-weight:bold;
+  font-style:italic;
+  font-size:12px;
+  text-shadow:1px 1px 1px rgba(0,0,0,.5);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4);
+  cursor:pointer;
+}
+.start:hover{background:linear-gradient(180deg,#75c975,#4aad4a 45%,#2b7d2b)}
+.start .flag{
+  width:14px;height:14px;border-radius:2px;flex:0 0 14px;
+  background:
+    linear-gradient(90deg,#f65 0 50%,#6c6 50% 100%),
+    linear-gradient(90deg,#6cf 0 50%,#fc4 50% 100%);
+  background-size:100% 50%,100% 50%;
+  background-position:0 0,0 100%;
+  background-repeat:no-repeat;
+  border:1px solid #fff;
+}
+.task-status{
+  flex:1;
+  font-size:11px;
+  padding:3px 7px;
+  color:#fff;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  text-shadow:1px 1px 1px rgba(0,0,0,.4);
+}
+.task-status.dirty{color:#ffe27a;font-weight:bold}
+.task-status.ok{color:#b6ffb6}
+.task-status.bad{color:#ffb3a7;font-weight:bold}
+.clock{
+  flex:0 0 auto;
+  font-size:11px;
+  padding:3px 8px;
+  color:#fff;
+  border-left:1px solid rgba(255,255,255,.25);
+  text-shadow:1px 1px 1px rgba(0,0,0,.4);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ---------- menu iniciar ---------- */
+.menu{
+  position:absolute;left:8px;bottom:40px;width:200px;
+  background:#fff;
+  border:1px solid #0a246a;
+  border-radius:5px 5px 0 0;
+  box-shadow:2px -2px 10px rgba(0,0,0,.4);
+  overflow:hidden;
+  display:none;
+  z-index:50;
+}
+.menu.on{display:block}
+.menu-head{
+  background:linear-gradient(180deg,#0058ee,#0054e3 60%,#0049b6);
+  color:#fff;font-weight:bold;font-size:12px;
+  padding:8px 10px;
+  text-shadow:1px 1px 1px rgba(0,0,0,.5);
+}
+.menu-item{
+  display:flex;align-items:center;gap:8px;
+  width:100%;
+  padding:8px 10px;
+  font-size:12px;
+  background:#fff;
+  border:none;
+  border-radius:0;
+  color:#000;
+  text-align:left;
+  box-shadow:none;
+  min-height:34px;
+}
+.menu-item:hover{background:#316ac5;color:#fff}
+.menu-item .mi{
+  width:16px;height:16px;flex:0 0 16px;
+  background:linear-gradient(135deg,#dfe9fb,#9fbdf0);
+  border:1px solid #7a96b5;
+  border-radius:2px;
+}
+
+/* ---------- dialog ---------- */
+.scrim{
+  position:fixed;inset:0;background:rgba(0,0,0,.28);
+  display:none;align-items:center;justify-content:center;padding:16px;z-index:100;
+}
+.scrim.on{display:flex}
+.dlg{
+  width:100%;max-width:300px;
+  background:var(--xp-face);
+  border:1px solid #0831d9;
+  border-radius:8px 8px 3px 3px;
+  box-shadow:3px 3px 16px rgba(0,0,0,.5);
+  overflow:hidden;
+}
+.dlg-body{padding:14px 14px 6px;display:flex;gap:11px;font-size:12px;line-height:1.55}
+.dlg-btns{padding:10px 14px 13px;display:flex;gap:8px;justify-content:flex-end}
+.dlg .big-ic{
+  flex:0 0 32px;width:32px;height:32px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#5a9bff,#0a3f9e);
+  border:1px solid #fff;
+  color:#fff;font-weight:bold;font-size:19px;
+  display:flex;align-items:center;justify-content:center;
+}
+.dlg.err .big-ic{background:radial-gradient(circle at 35% 30%,#ff9078,#a52208)}
+
+/* ---------- login ---------- */
+.welcome{
+  background:linear-gradient(180deg,#00309c 0%,#0a5fd6 40%,#4a9bff 100%);
+  color:#fff;
+  padding:16px 14px;
+  text-align:center;
+}
+.welcome h1{
+  margin:0 0 4px;
+  font-size:17px;
+  font-weight:bold;
+  text-shadow:1px 1px 2px rgba(0,0,0,.5);
+}
+.welcome p{
+  margin:0;
+  font-size:12px;
+  font-style:italic;
+  opacity:.9;
+}
+.welcome .sep{
+  height:1px;background:rgba(255,255,255,.35);
+  margin:11px 20px 0;
+}
+
+/* ---------- misc ---------- */
+.hidden{display:none !important}
+.scrollbar-x{overflow-x:auto}
+.foot-note{
+  font-size:10px;color:#5a5a5a;text-align:center;
+  padding:6px 0 2px;line-height:1.5;
+}
+.kv{font-size:10px;color:#5a5a5a;padding:0 2px 6px;line-height:1.5}
+.strong-tools{display:flex;gap:5px;margin:-2px 0 6px}
+.entry-num{
+  font-size:10px;color:#fff;background:#0a5fd6;
+  padding:1px 6px;border-radius:8px;font-weight:bold;
+}
+
+/* barras de rolagem XP */
+*::-webkit-scrollbar{width:13px;height:13px}
+*::-webkit-scrollbar-track{
+  background:#f1efe2;
+  border-left:1px solid #d4d0c8;
+}
+*::-webkit-scrollbar-thumb{
+  background:linear-gradient(90deg,#dfe9fb 0%,#c3d3f0 100%);
+  border:1px solid #8ba6c1;
+}
+*::-webkit-scrollbar-thumb:hover{
+  background:linear-gradient(90deg,#eaf1fd 0%,#d0ddf5 100%);
+}
+</style>
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<div class="win" id="telaLogin">
+  <div class="titlebar">
+    <div class="t-icon"></div>
+    <div class="t-text">Entrar no Painel da Escala</div>
+    <div class="t-btns">
+      <button class="t-btn" type="button" title="Minimizar" disabled>&#95;</button>
+      <button class="t-btn close" type="button" title="Fechar" onclick="location.href='/'">&#10005;</button>
+    </div>
+  </div>
+
+  <div class="welcome">
+    <h1>Escala da BIJU</h1>
+    <p>&mdash; Ser Mulher</p>
+    <div class="sep"></div>
+  </div>
+
+  <div class="win-body">
+    <div class="notice" id="loginNotice" style="display:none">
+      <div class="ic">i</div><div id="loginNoticeTxt"></div>
+    </div>
+
+    <form id="formLogin" autocomplete="on">
+      <div style="margin-bottom:8px">
+        <label class="lb" for="email"><u>E</u>-mail</label>
+        <input type="email" id="email" name="email" required autocomplete="username" inputmode="email">
+      </div>
+      <div style="margin-bottom:12px">
+        <label class="lb" for="senha"><u>S</u>enha</label>
+        <input type="password" id="senha" name="password" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="prim" id="btnEntrar" style="width:100%;min-height:38px">
+        Entrar
+      </button>
+    </form>
+
+    <div class="foot-note">
+      Acesso restrito &middot; use a mesma conta do site
+    </div>
+  </div>
+</div>
+
+<!-- ================= PAINEL ================= -->
+<div class="win hidden" id="telaPainel">
+  <div class="titlebar">
+    <div class="t-icon"></div>
+    <div class="t-text" id="winTitle">Painel da Escala</div>
+    <div class="t-btns">
+      <button class="t-btn" type="button" title="Minimizar" disabled>&#95;</button>
+      <button class="t-btn" type="button" title="Maximizar" disabled>&#9633;</button>
+      <button class="t-btn close" type="button" title="Sair" id="btnSairTopo">&#10005;</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" type="button" data-tab="escala">Escala</button>
+    <button class="tab" type="button" data-tab="plantoes">Plant&otilde;es</button>
+    <button class="tab" type="button" data-tab="avisos">Avisos</button>
+    <button class="tab" type="button" data-tab="textos">Textos</button>
+  </div>
+
+  <div class="win-body">
+    <div class="notice warn hidden" id="avisoAdmin">
+      <div class="ic">!</div>
+      <div>Sua conta n&atilde;o tem permiss&atilde;o de administradora. Voc&ecirc; pode ver tudo, mas as altera&ccedil;&otilde;es n&atilde;o ser&atilde;o salvas.</div>
+    </div>
+
+    <!-- ---------- ABA ESCALA ---------- -->
+    <div class="tab-panel on" id="p-escala">
+      <fieldset>
+        <legend>Per&iacute;odo da escala</legend>
+        <div class="row">
+          <div class="f">
+            <label class="lb" for="mes"><u>M</u>&ecirc;s</label>
+            <input type="text" id="mes" placeholder="Julho">
+          </div>
+          <div class="f" style="flex:0 0 96px">
+            <label class="lb" for="ano"><u>A</u>no</label>
+            <input type="text" id="ano" placeholder="2026" inputmode="numeric">
+          </div>
+        </div>
+        <div class="hint">Aparece no alto da p&aacute;gina: <b>Julho/2026</b></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Resumo</legend>
+        <div class="kv" id="resumo">Carregando...</div>
+      </fieldset>
+    </div>
+
+    <!-- ---------- ABA PLANTOES ---------- -->
+    <div class="tab-panel" id="p-plantoes">
+      <div id="listaEntries"></div>
+      <button class="add" type="button" id="btnAddEntry">+ Adicionar plant&atilde;o</button>
+      <div class="hint" style="margin-top:8px">
+        A <b>abertura</b> recebe quantas pessoas quiser. O <b>fechamento</b> tamb&eacute;m.
+        Para tirar uma pessoa, clique no X vermelho ao lado do nome dela.
+      </div>
+    </div>
+
+    <!-- ---------- ABA AVISOS ---------- -->
+    <div class="tab-panel" id="p-avisos">
+      <div id="listaAvisos"></div>
+      <button class="add" type="button" id="btnAddAviso">+ Adicionar aviso</button>
+      <div class="hint" style="margin-top:8px">
+        Estes s&atilde;o os "Observa&ccedil;&otilde;es Importantes" no fim da p&aacute;gina.
+        Pode usar <b>&lt;strong&gt;negrito&lt;/strong&gt;</b> &mdash; use o bot&atilde;o
+        <b>Negrito</b> para marcar a parte selecionada.
+      </div>
+    </div>
+
+    <!-- ---------- ABA TEXTOS ---------- -->
+    <div class="tab-panel" id="p-textos">
+      <fieldset>
+        <legend>Cabe&ccedil;alho</legend>
+        <div style="margin-bottom:7px">
+          <label class="lb" for="tTitulo">T&iacute;tulo</label>
+          <input type="text" id="tTitulo" placeholder="Escala da BIJU">
+        </div>
+        <div>
+          <label class="lb" for="tSubtitulo">Subt&iacute;tulo</label>
+          <input type="text" id="tSubtitulo" placeholder="Ser Mulher">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Card da Abertura</legend>
+        <div style="margin-bottom:7px">
+          <label class="lb" for="tAbDesc">Descri&ccedil;&atilde;o</label>
+          <input type="text" id="tAbDesc">
+        </div>
+        <div style="margin-bottom:7px">
+          <label class="lb" for="tAbOr">Orientadora</label>
+          <input type="text" id="tAbOr">
+        </div>
+        <div style="margin-bottom:7px">
+          <label class="lb" for="tAbChegada">Aviso de chegada</label>
+          <input type="text" id="tAbChegada">
+        </div>
+        <div>
+          <label class="lb" for="tAbNota">Observa&ccedil;&atilde;o extra</label>
+          <input type="text" id="tAbNota">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Card do Fechamento</legend>
+        <div style="margin-bottom:7px">
+          <label class="lb" for="tFeDesc">Descri&ccedil;&atilde;o</label>
+          <input type="text" id="tFeDesc">
+        </div>
+        <div>
+          <label class="lb" for="tFeOr">Orientadora</label>
+          <input type="text" id="tFeOr">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Tarefas do Fechamento</legend>
+        <div id="listaTarefas"></div>
+        <button class="add" type="button" id="btnAddTarefa">+ Adicionar tarefa</button>
+      </fieldset>
+
+      <fieldset>
+        <legend>Rodap&eacute;</legend>
+        <div style="margin-bottom:7px">
+          <label class="lb" for="tRodTitulo">T&iacute;tulo</label>
+          <input type="text" id="tRodTitulo" placeholder="Ser Mulher">
+        </div>
+        <div>
+          <label class="lb" for="tRodFrase">Frase</label>
+          <input type="text" id="tRodFrase" placeholder="Que Deus Aben&ccedil;oe!">
+        </div>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="taskbar">
+    <button class="start" type="button" id="btnStart">
+      <span class="flag"></span>iniciar
+    </button>
+    <button type="button" class="sm" id="btnSalvar" title="Salvar no site">Salvar</button>
+    <div class="task-status" id="status">Pronto</div>
+    <div class="clock" id="relogio">--:--</div>
+  </div>
+
+  <div class="menu" id="menu">
+    <div class="menu-head" id="menuHead">Painel da Escala</div>
+    <button class="menu-item" type="button" id="mSalvar"><span class="mi"></span>Salvar altera&ccedil;&otilde;es</button>
+    <button class="menu-item" type="button" id="mRecarregar"><span class="mi"></span>Descartar e recarregar</button>
+    <button class="menu-item" type="button" id="mSite"><span class="mi"></span>Ver o site</button>
+    <button class="menu-item" type="button" id="mSair"><span class="mi"></span>Sair</button>
+  </div>
+</div>
+
+<!-- ================= DIALOG ================= -->
+<div class="scrim" id="scrim">
+  <div class="dlg" id="dlg">
+    <div class="titlebar">
+      <div class="t-icon"></div>
+      <div class="t-text" id="dlgTitle">Painel da Escala</div>
+      <div class="t-btns">
+        <button class="t-btn close" type="button" id="dlgX">&#10005;</button>
+      </div>
+    </div>
+    <div class="dlg-body">
+      <div class="big-ic" id="dlgIc">i</div>
+      <div id="dlgMsg">...</div>
+    </div>
+    <div class="dlg-btns">
+      <button type="button" class="prim" id="dlgOk" style="min-width:78px">OK</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  // ---------------------------------------------------------------
+  // CONFIG  (publishable key = publica por design; protegida por RLS)
+  // ---------------------------------------------------------------
+  var SUPABASE_URL = "https://c--8ea79681-1b31-4a5d-919f-7fa17edb20de-prod.lovable.cloud";
+  var SUPABASE_KEY = "sb_publishable_6tWzbZwdjGAgG-dnm7NM6g_tEOJq5Eu";
+
+  // ---------------------------------------------------------------
+  // Textos padrao: usados quando o banco ainda nao tem esse campo.
+  // Sao exatamente os textos que estavam fixos no codigo.
+  // ---------------------------------------------------------------
+  var PADRAO = {
+    titulo: "Escala da BIJU",
+    subtitulo: "Ser Mulher",
+    aberturaDescricao: "3 pessoas responsáveis por receber e acolher",
+    aberturaOrientadora: "Estefany",
+    aberturaChegada: "Chegar 1 hora antes do horário de culto para organizar a mesa das bijus",
+    aberturaNota: "A orientadora vai pegar os materiais com a Pastora (maquininha de cartão, chave da ceia, etc.)",
+    fechamentoDescricao: "2 pessoas responsáveis por encerrar e organizar",
+    fechamentoOrientadora: "Presbítera Cibele",
+    fechamentoTarefas: [
+      "Pegar a chave da sala da ceia",
+      "Verificar se o canto da Biju está organizado na sala",
+      "Mandar foto para a Pastora Edinolia mostrando como ficou"
+    ],
+    rodapeTitulo: "Ser Mulher",
+    rodapeFrase: "Que Deus Abençoe!"
+  };
+
+  // ---------------------------------------------------------------
+  // cliente supabase
+  // A chave sb_publishable_ e string opaca, nao JWT: enviar como
+  // Authorization: Bearer da 403. Entao removemos esse header.
+  // (mesma logica do src/integrations/supabase/client.ts do site)
+  // ---------------------------------------------------------------
+  function clientFetch(key) {
+    return function (input, init) {
+      init = init || {};
+      var headers = new Headers(init.headers);
+      if ((key.indexOf("sb_publishable_") === 0 || key.indexOf("sb_secret_") === 0) &&
+          headers.get("Authorization") === "Bearer " + key) {
+        headers.delete("Authorization");
+      }
+      headers.set("apikey", key);
+      return fetch(input, {
+        method: init.method, body: init.body, headers: headers,
+        signal: init.signal, cache: init.cache, credentials: init.credentials
+      });
+    };
+  }
+
+  var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    global: { fetch: clientFetch(SUPABASE_KEY) }
+  });
+
+  // ---------------------------------------------------------------
+  // estado
+  // ---------------------------------------------------------------
+  var S = { id: null, data: null, sujo: false, ehAdmin: false, user: null };
+  var el = function (id) { return document.getElementById(id); };
+  var rascunho = false;
+
+  function novoId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  }
+
+  // garante que data tenha tudo que o painel espera
+  function normaliza(d) {
+    d = d || {};
+    var out = {
+      month: d.month || "Julho",
+      year: String(d.year || "2026"),
+      entries: Array.isArray(d.entries) ? d.entries : [],
+      observations: Array.isArray(d.observations) ? d.observations : [],
+      site: {}
+    };
+    var s = d.site || {};
+    for (var k in PADRAO) { out.site[k] = s[k]; }
+    if (!Array.isArray(out.site.fechamentoTarefas)) {
+      out.site.fechamentoTarefas = PADRAO.fechamentoTarefas.slice();
+    }
+    out.entries = out.entries.map(function (e) {
+      return {
+        id: e.id || novoId(),
+        date: e.date || "",
+        day: e.day || "",
+        label: e.label || "",
+        abertura: Array.isArray(e.abertura) ? e.abertura : [],
+        orientadoraAbertura: e.orientadoraAbertura || "",
+        midia: e.midia || "",
+        fechamento: Array.isArray(e.fechamento) ? e.fechamento : [],
+        orientadoraFechamento: e.orientadoraFechamento || ""
+      };
+    });
+    return out;
+  }
+
+  // tira campos vazios pra nao poluir o JSON salvo
+  function limpa(d) {
+    var out = {
+      month: d.month, year: String(d.year || ""),
+      entries: d.entries.map(function (e) {
+        var o = {
+          id: e.id, date: e.date, day: e.day,
+          abertura: e.abertura.filter(function (n) { return n !== ""; }),
+          orientadoraAbertura: e.orientadoraAbertura,
+          fechamento: e.fechamento.filter(function (n) { return n !== ""; }),
+          orientadoraFechamento: e.orientadoraFechamento
+        };
+        if (e.label) o.label = e.label;
+        if (e.midia) o.midia = e.midia;
+        return o;
+      }),
+      observations: d.observations.filter(function (n) { return n !== ""; }),
+      site: {}
+    };
+    for (var k in d.site) {
+      var v = d.site[k];
+      if (Array.isArray(v)) {
+        v = v.filter(function (x) { return x !== ""; });
+        if (v.length) out.site[k] = v;
+      } else if (v !== "" && v !== null && v !== undefined) {
+        out.site[k] = v;
+      }
+    }
+    return out;
+  }
+
+  // ---------------------------------------------------------------
+  // status / dialog
+  // ---------------------------------------------------------------
+  function status(txt, cls) {
+    var s = el("status");
+    s.textContent = txt;
+    s.className = "task-status" + (cls ? " " + cls : "");
+  }
+  function marcarSujo() {
+    S.sujo = true;
+    status("Alterações não salvas", "dirty");
+  }
+  function dialog(titulo, msg, ehErro) {
+    el("dlgTitle").textContent = titulo;
+    el("dlgMsg").innerHTML = msg;
+    el("dlg").className = "dlg" + (ehErro ? " err" : "");
+    el("dlgIc").textContent = ehErro ? "!" : "i";
+    el("scrim").classList.add("on");
+  }
+  function fechaDialog() { el("scrim").classList.remove("on"); }
+  el("dlgOk").onclick = fechaDialog;
+  el("dlgX").onclick = fechaDialog;
+  el("scrim").onclick = function (e) { if (e.target === el("scrim")) fechaDialog(); };
+
+  function relogio() {
+    var d = new Date();
+    var h = String(d.getHours()).padStart(2, "0");
+    var m = String(d.getMinutes()).padStart(2, "0");
+    el("relogio").textContent = h + ":" + m;
+  }
+  setInterval(relogio, 10000); relogio();
+
+  // ---------------------------------------------------------------
+  // abas
+  // ---------------------------------------------------------------
+  Array.prototype.forEach.call(document.querySelectorAll(".tab"), function (t) {
+    t.onclick = function () {
+      Array.prototype.forEach.call(document.querySelectorAll(".tab"), function (x) {
+        x.classList.remove("on");
+      });
+      Array.prototype.forEach.call(document.querySelectorAll(".tab-panel"), function (x) {
+        x.classList.remove("on");
+      });
+      t.classList.add("on");
+      el("p-" + t.getAttribute("data-tab")).classList.add("on");
+      el("winTitle").textContent = "Painel da Escala - " + t.textContent.trim();
+    };
+  });
+
+  // ---------------------------------------------------------------
+  // LOGIN
+  // ---------------------------------------------------------------
+  el("formLogin").onsubmit = function (ev) {
+    ev.preventDefault();
+    var b = el("btnEntrar");
+    b.disabled = true; b.textContent = "Entrando...";
+    var n = el("loginNotice"); n.style.display = "none";
+
+    sb.auth.signInWithPassword({ email: el("email").value.trim(), password: el("senha").value })
+      .then(function (r) {
+        if (r.error) throw r.error;
+        el("senha").value = "";
+        return entrar();
+      })
+      .catch(function (err) {
+        var m = String(err && err.message || err);
+        el("loginNoticeTxt").textContent =
+          m.indexOf("Invalid login credentials") >= 0
+            ? "E-mail ou senha incorretos."
+            : m;
+        n.style.display = "flex";
+      })
+      .then(function () {
+        b.disabled = false; b.textContent = "Entrar";
+      });
+  };
+
+  function entrar() {
+    return sb.auth.getUser().then(function (r) {
+      if (!r.data || !r.data.user) { mostraLogin(); return; }
+      S.user = r.data.user;
+      return sb.from("user_roles").select("role").eq("user_id", S.user.id)
+        .then(function (q) {
+          S.ehAdmin = !!(q.data && q.data.some(function (x) { return x.role === "admin"; }));
+          el("avisoAdmin").classList.toggle("hidden", S.ehAdmin);
+          el("menuHead").textContent = S.user.email || "Painel da Escala";
+          el("winTitle").textContent = "Painel da Escala";
+          el("telaLogin").classList.add("hidden");
+          el("telaPainel").classList.remove("hidden");
+          return carregar();
+        });
+    });
+  }
+
+  function mostraLogin() {
+    el("telaPainel").classList.add("hidden");
+    el("telaLogin").classList.remove("hidden");
+    status("Pronto");
+  }
+
+  el("btnSairTopo").onclick = sair;
+  el("mSair").onclick = sair;
+  function sair() {
+    if (S.sujo && !confirm("Existem alterações não salvas. Sair mesmo assim?")) return;
+    sb.auth.signOut().then(function () { location.reload(); });
+  }
+
+  // ---------------------------------------------------------------
+  // CARREGAR
+  // ---------------------------------------------------------------
+  function carregar() {
+    status("Carregando...");
+    return sb.from("escala").select("id, data, updated_at")
+      .order("updated_at", { ascending: false }).limit(1).maybeSingle()
+      .then(function (r) {
+        if (r.error) throw r.error;
+        S.id = r.data ? r.data.id : null;
+        S.data = normaliza(r.data ? r.data.data : null);
+        S.sujo = false;
+        desenha();
+        status(S.id
+          ? "Carregado. Última alteração: " + formataData(r.data.updated_at)
+          : "Nenhuma escala salva ainda — salvar vai criar uma.", "ok");
+      })
+      .catch(function (e) {
+        dialog("Erro ao carregar", "Não consegui ler a escala do banco.<br><br><b>" +
+          String(e.message || e) + "</b>", true);
+        status("Falha ao carregar", "bad");
+      });
+  }
+
+  function formataData(iso) {
+    try {
+      var d = new Date(iso);
+      return d.toLocaleDateString("pt-BR") + " às " +
+        String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+    } catch (e) { return "?"; }
+  }
+
+  // ---------------------------------------------------------------
+  // SALVAR
+  // ---------------------------------------------------------------
+  function salvar() {
+    if (!S.ehAdmin) {
+      dialog("Permissão", "Sua conta não tem permissão de administradora.<br><br>" +
+        "Só um administrador pode salvar a escala. Peça para te darem acesso, ou entre " +
+        "com a conta que criou o sistema.", true);
+      return;
+    }
+    var payload = limpa(S.data);
+    status("Salvando...");
+    el("btnSalvar").disabled = true;
+
+    var q;
+    if (S.id) {
+      q = sb.from("escala")
+        .update({ data: payload, updated_at: new Date().toISOString() })
+        .eq("id", S.id).select("id");
+    } else {
+      q = sb.from("escala").insert({ data: payload }).select("id");
+    }
+
+    q.then(function (r) {
+      if (r.error) throw r.error;
+      if (!r.data || !r.data.length) {
+        throw new Error("O banco recusou a gravação (nenhuma linha afetada). " +
+          "Provavelmente falta permissão de administradora.");
+      }
+      if (!S.id) S.id = r.data[0].id;
+      S.sujo = false;
+      status("Salvo às " + new Date().toLocaleTimeString("pt-BR").slice(0, 5) + " — já está no ar", "ok");
+      return carregar();
+    })
+    .catch(function (e) {
+      var m = String(e.message || e);
+      var dica = /row-level security|permission|policy/i.test(m)
+        ? "<br><br>Isso é o RLS do banco: sua conta não tem o papel <b>admin</b> na tabela <b>user_roles</b>."
+        : "";
+      dialog("Não consegui salvar", m + dica, true);
+      status("Erro ao salvar", "bad");
+    })
+    .then(function () { el("btnSalvar").disabled = false; });
+  }
+
+  el("btnSalvar").onclick = salvar;
+  el("mSalvar").onclick = function () { el("menu").classList.remove("on"); salvar(); };
+  el("mRecarregar").onclick = function () {
+    el("menu").classList.remove("on");
+    if (S.sujo && !confirm("Descartar as alterações não salvas?")) return;
+    carregar();
+  };
+  el("mSite").onclick = function () { window.open("/", "_blank"); };
+  el("btnStart").onclick = function (e) {
+    e.stopPropagation();
+    el("menu").classList.toggle("on");
+  };
+  document.addEventListener("click", function () { el("menu").classList.remove("on"); });
+
+  // ---------------------------------------------------------------
+  // RENDER
+  // ---------------------------------------------------------------
+  function desenha() {
+    el("mes").value = S.data.month;
+    el("ano").value = S.data.year;
+    el("resumo").innerHTML = resumoHtml();
+    el("tTitulo").value = S.data.site.titulo || "";
+    el("tSubtitulo").value = S.data.site.subtitulo || "";
+    el("tAbDesc").value = S.data.site.aberturaDescricao || "";
+    el("tAbOr").value = S.data.site.aberturaOrientadora || "";
+    el("tAbChegada").value = S.data.site.aberturaChegada || "";
+    el("tAbNota").value = S.data.site.aberturaNota || "";
+    el("tFeDesc").value = S.data.site.fechamentoDescricao || "";
+    el("tFeOr").value = S.data.site.fechamentoOrientadora || "";
+    el("tRodTitulo").value = S.data.site.rodapeTitulo || "";
+    el("tRodFrase").value = S.data.site.rodapeFrase || "";
+    desenhaEntries();
+    desenhaAvisos();
+    desenhaTarefas();
+  }
+
+  function resumoHtml() {
+    var n = S.data.entries.length;
+    var p = S.data.entries.reduce(function (a, e) {
+      return a + e.abertura.length + e.fechamento.length + (e.midia ? 1 : 0);
+    }, 0);
+    var datas = S.data.entries.map(function (e) { return e.date; }).filter(Boolean);
+    return "<b>" + esc(S.data.month) + "/" + esc(S.data.year) + "</b><br>" +
+      n + (n === 1 ? " plantão" : " plantões") + " &middot; " +
+      p + (p === 1 ? " pessoa escalada" : " pessoas escaladas") + " &middot; " +
+      S.data.observations.length + (S.data.observations.length === 1 ? " aviso" : " avisos") +
+      (datas.length ? "<br>Datas: " + esc(datas.join(", ")) : "");
+  }
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function desenhaEntries() {
+    var box = el("listaEntries");
+    box.innerHTML = "";
+
+    if (!S.data.entries.length) {
+      box.innerHTML = '<div class="notice"><div class="ic">i</div>' +
+        '<div>Nenhum plantão cadastrado. Clique em <b>+ Adicionar plantão</b>.</div></div>';
+      return;
+    }
+
+    S.data.entries.forEach(function (e, i) {
+      var fs = document.createElement("fieldset");
+      fs.innerHTML =
+        '<legend>Plantão <span class="entry-num">' + (i + 1) + '</span></legend>' +
+        '<div class="row">' +
+        '  <div class="f" style="flex:0 0 88px">' +
+        '    <label class="lb">Data</label>' +
+        '    <input type="text" data-k="date" placeholder="25/07" inputmode="numeric">' +
+        '  </div>' +
+        '  <div class="f">' +
+        '    <label class="lb">Dia</label>' +
+        '    <input type="text" data-k="day" placeholder="Sábado">' +
+        '  </div>' +
+        '</div>' +
+        '<div style="margin-bottom:7px">' +
+        '  <label class="lb">Nome do culto / evento</label>' +
+        '  <input type="text" data-k="label" placeholder="Culto de Mulheres">' +
+        '</div>' +
+        '<fieldset style="margin-bottom:8px">' +
+        '  <legend>Abertura</legend>' +
+        '  <div data-lista="abertura"></div>' +
+        '  <button type="button" class="add" data-add="abertura">+ pessoa</button>' +
+        '  <div style="margin-top:7px">' +
+        '    <label class="lb">Orientadora da abertura</label>' +
+        '    <input type="text" data-k="orientadoraAbertura" placeholder="Estefany">' +
+        '  </div>' +
+        '  <div style="margin-top:7px">' +
+        '    <label class="lb">Mídia</label>' +
+        '    <input type="text" data-k="midia" placeholder="Bia">' +
+        '  </div>' +
+        '</fieldset>' +
+        '<fieldset style="margin-bottom:8px">' +
+        '  <legend>Fechamento</legend>' +
+        '  <div data-lista="fechamento"></div>' +
+        '  <button type="button" class="add" data-add="fechamento">+ pessoa</button>' +
+        '  <div style="margin-top:7px">' +
+        '    <label class="lb">Orientadora do fechamento</label>' +
+        '    <input type="text" data-k="orientadoraFechamento" placeholder="Presb. Cibele">' +
+        '  </div>' +
+        '</fieldset>' +
+        '<button type="button" class="sm" data-del-entry style="width:100%;color:#7b1a0d">' +
+        '  Remover este plantão' +
+        '</button>';
+
+      // valores
+      fs.querySelector('[data-k="date"]').value = e.date;
+      fs.querySelector('[data-k="day"]').value = e.day;
+      fs.querySelector('[data-k="label"]').value = e.label;
+      fs.querySelector('[data-k="orientadoraAbertura"]').value = e.orientadoraAbertura;
+      fs.querySelector('[data-k="midia"]').value = e.midia;
+      fs.querySelector('[data-k="orientadoraFechamento"]').value = e.orientadoraFechamento;
+
+      // bind campos simples
+      Array.prototype.forEach.call(fs.querySelectorAll("[data-k]"), function (inp) {
+        inp.oninput = function () { e[inp.getAttribute("data-k")] = inp.value; marcarSujo(); };
+      });
+
+      // listas de nomes
+      function desenhaNomes(qual) {
+        var box2 = fs.querySelector('[data-lista="' + qual + '"]');
+        box2.innerHTML = "";
+        e[qual].forEach(function (nome, j) {
+          var d = document.createElement("div");
+          d.className = "name-row";
+          var inp = document.createElement("input");
+          inp.type = "text"; inp.value = nome;
+          inp.placeholder = qual === "abertura" ? "Nome" : "Nome";
+          inp.oninput = function () { e[qual][j] = inp.value; marcarSujo(); };
+          var b = document.createElement("button");
+          b.type = "button"; b.className = "x"; b.innerHTML = "&#10005;";
+          b.title = "Remover";
+          b.onclick = function () {
+            e[qual].splice(j, 1); desenhaNomes(qual); marcarSujo();
+          };
+          d.appendChild(inp); d.appendChild(b);
+          box2.appendChild(d);
+        });
+        if (!e[qual].length) {
+          var v = document.createElement("div");
+          v.className = "hint";
+          v.style.margin = "0 0 6px 1px";
+          v.textContent = "ninguém ainda";
+          box2.appendChild(v);
+        }
+      }
+      desenhaNomes("abertura");
+      desenhaNomes("fechamento");
+
+      fs.querySelector('[data-add="abertura"]').onclick = function () {
+        e.abertura.push(""); desenhaNomes("abertura"); marcarSujo();
+        var ins = fs.querySelector('[data-lista="abertura"]').querySelectorAll("input");
+        if (ins.length) ins[ins.length - 1].focus();
+      };
+      fs.querySelector('[data-add="fechamento"]').onclick = function () {
+        e.fechamento.push(""); desenhaNomes("fechamento"); marcarSujo();
+        var ins = fs.querySelector('[data-lista="fechamento"]').querySelectorAll("input");
+        if (ins.length) ins[ins.length - 1].focus();
+      };
+      fs.querySelector("[data-del-entry]").onclick = function () {
+        if (!confirm("Remover o plantão " + (e.date || "") + " (" + (e.day || "") + ")?")) return;
+        S.data.entries.splice(i, 1);
+        desenhaEntries(); desenhaResumo(); marcarSujo();
+      };
+
+      box.appendChild(fs);
+    });
+  }
+
+  function desenhaResumo() {
+    el("resumo").innerHTML = resumoHtml();
+  }
+
+  function desenhaAvisos() {
+    var box = el("listaAvisos");
+    box.innerHTML = "";
+    if (!S.data.observations.length) {
+      box.innerHTML = '<div class="notice"><div class="ic">i</div>' +
+        '<div>Nenhum aviso. Clique em <b>+ Adicionar aviso</b>.</div></div>';
+      return;
+    }
+    S.data.observations.forEach(function (txt, i) {
+      var fs = document.createElement("fieldset");
+      var ta = document.createElement("textarea");
+      ta.value = txt;
+      ta.rows = 3;
+      ta.placeholder = "Escreva o aviso...";
+      ta.oninput = function () { S.data.observations[i] = ta.value; marcarSujo(); desenhaResumo(); };
+
+      var tools = document.createElement("div");
+      tools.className = "strong-tools";
+      var bn = document.createElement("button");
+      bn.type = "button"; bn.className = "sm"; bn.textContent = "Negrito";
+      bn.onclick = function () {
+        var a = ta.selectionStart, b = ta.selectionEnd;
+        if (a === b) return;
+        ta.value = ta.value.slice(0, a) + "<strong>" + ta.value.slice(a, b) + "</strong>" + ta.value.slice(b);
+        S.data.observations[i] = ta.value; marcarSujo();
+      };
+      tools.appendChild(bn);
+
+      var del = document.createElement("button");
+      del.type = "button"; del.className = "sm";
+      del.style.color = "#7b1a0d";
+      del.innerHTML = "&#10005; Remover aviso";
+      del.onclick = function () {
+        if (!confirm("Remover este aviso?")) return;
+        S.data.observations.splice(i, 1);
+        desenhaAvisos(); desenhaResumo(); marcarSujo();
+      };
+
+      fs.appendChild(ta);
+      fs.appendChild(tools);
+      fs.appendChild(del);
+      box.appendChild(fs);
+    });
+  }
+
+  el("btnAddAviso").onclick = function () {
+    S.data.observations.push("");
+    desenhaAvisos(); desenhaResumo(); marcarSujo();
+    var tas = el("listaAvisos").querySelectorAll("textarea");
+    if (tas.length) tas[tas.length - 1].focus();
+  };
+  el("btnAddEntry").onclick = function () {
+    S.data.entries.push({
+      id: novoId(), date: "", day: "", label: "",
+      abertura: [], orientadoraAbertura: PADRAO.aberturaOrientadora, midia: "",
+      fechamento: [], orientadoraFechamento: PADRAO.fechamentoOrientadora
+    });
+    desenhaEntries(); desenhaResumo(); marcarSujo();
+    window.scrollTo(0, 0);
+  };
+
+  function desenhaTarefas() {
+    var box = el("listaTarefas");
+    box.innerHTML = "";
+    var arr = S.data.site.fechamentoTarefas;
+    arr.forEach(function (t, i) {
+      var d = document.createElement("div");
+      d.className = "name-row";
+      var inp = document.createElement("input");
+      inp.type = "text"; inp.value = t; inp.placeholder = "Tarefa";
+      inp.oninput = function () { arr[i] = inp.value; marcarSujo(); };
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "x"; b.innerHTML = "&#10005;";
+      b.onclick = function () { arr.splice(i, 1); desenhaTarefas(); marcarSujo(); };
+      d.appendChild(inp); d.appendChild(b);
+      box.appendChild(d);
+    });
+    if (!arr.length) {
+      var v = document.createElement("div");
+      v.className = "hint"; v.style.margin = "0 0 6px 1px";
+      v.textContent = "nenhuma tarefa";
+      box.appendChild(v);
+    }
+  }
+  el("btnAddTarefa").onclick = function () {
+    S.data.site.fechamentoTarefas.push("");
+    desenhaTarefas(); marcarSujo();
+  };
+
+  // campos simples do resto do painel
+  function liga(id, fn) {
+    el(id).oninput = function () { fn(el(id).value); marcarSujo(); desenhaResumo(); };
+  }
+  liga("mes", function (v) { S.data.month = v; });
+  liga("ano", function (v) { S.data.year = v; });
+  liga("tTitulo", function (v) { S.data.site.titulo = v; });
+  liga("tSubtitulo", function (v) { S.data.site.subtitulo = v; });
+  liga("tAbDesc", function (v) { S.data.site.aberturaDescricao = v; });
+  liga("tAbOr", function (v) { S.data.site.aberturaOrientadora = v; });
+  liga("tAbChegada", function (v) { S.data.site.aberturaChegada = v; });
+  liga("tAbNota", function (v) { S.data.site.aberturaNota = v; });
+  liga("tFeDesc", function (v) { S.data.site.fechamentoDescricao = v; });
+  liga("tFeOr", function (v) { S.data.site.fechamentoOrientadora = v; });
+  liga("tRodTitulo", function (v) { S.data.site.rodapeTitulo = v; });
+  liga("tRodFrase", function (v) { S.data.site.rodapeFrase = v; });
+
+  window.addEventListener("beforeunload", function (e) {
+    if (S.sujo) { e.preventDefault(); e.returnValue = ""; }
+  });
+
+  // ---------------------------------------------------------------
+  // start
+  // ---------------------------------------------------------------
+  sb.auth.getSession().then(function (r) {
+    if (r.data && r.data.session) { entrar(); } else { mostraLogin(); }
+  });
+})();
+</script>
+</body>
+</html>

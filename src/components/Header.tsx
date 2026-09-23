@@ -4,9 +4,11 @@ import bijuDecor from "@/assets/biju-decor.jpg";
 interface HeaderProps {
   month: string;
   year: string;
+  titulo: string;
+  subtitulo: string;
 }
 
-const Header = ({ month, year }: HeaderProps) => {
+const Header = ({ month, year, titulo, subtitulo }: HeaderProps) => {
   return (
     <header className="relative overflow-hidden rounded-3xl shadow-2xl">
       {/* Background image */}
@@ -22,8 +24,8 @@ const Header = ({ month, year }: HeaderProps) => {
           </span>
         </div>
 
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 tracking-tight">Escala da BIJU</h1>
-        <p className="text-lg md:text-xl font-light opacity-90 mb-2">— Ser Mulher</p>
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 tracking-tight">{titulo}</h1>
+        <p className="text-lg md:text-xl font-light opacity-90 mb-2">— {subtitulo}</p>
 
         <div className="flex justify-center items-center gap-2 mt-4">
           <div className="h-px w-12 bg-primary-foreground/30" />

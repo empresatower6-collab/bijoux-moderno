@@ -8,10 +8,14 @@ import ObservationCard from "@/components/ObservationCard";
 import Footer from "@/components/Footer";
 import { CalendarDays } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { defaultSchedule, type ScheduleData } from "@/lib/escala";
+import { defaultSchedule, siteContent, type ScheduleData } from "@/lib/escala";
 
 const Index = () => {
   const [schedule, setSchedule] = useState<ScheduleData>(defaultSchedule);
+
+  // textos da página: vêm do banco (editáveis em /painel.html),
+  // com fallback para os padrões quando o campo ainda não existe.
+  const site = siteContent(schedule.site);
 
   useEffect(() => {
     let active = true;
@@ -37,27 +41,27 @@ const Index = () => {
       <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px]" />
       <div className="relative z-10 max-w-3xl mx-auto space-y-8">
         {/* Header */}
-        <Header month={schedule.month} year={schedule.year} />
-
+        <Header
+          month={schedule.month}
+          year={schedule.year}
+          titulo={site.titulo}
+          subtitulo={site.subtitulo}
+        />
 
         {/* Informações Gerais */}
         <section className="grid md:grid-cols-2 gap-4">
           <InfoCard
             type="abertura"
-            description="3 pessoas responsáveis por receber e acolher"
-            orientadora="Estefany"
-            arrivalNote="Chegar 1 hora antes do horário de culto para organizar a mesa das bijus"
-            additionalNote="A orientadora vai pegar os materiais com a Pastora (maquininha de cartão, chave da ceia, etc.)"
+            description={site.aberturaDescricao}
+            orientadora={site.aberturaOrientadora}
+            arrivalNote={site.aberturaChegada}
+            additionalNote={site.aberturaNota}
           />
           <InfoCard
             type="fechamento"
-            description="2 pessoas responsáveis por encerrar e organizar"
-            orientadora="Presbítera Cibele"
-            tasks={[
-              "Pegar a chave da sala da ceia",
-              "Verificar se o canto da Biju está organizado na sala",
-              "Mandar foto para a Pastora Edinolia mostrando como ficou"
-            ]}
+            description={site.fechamentoDescricao}
+            orientadora={site.fechamentoOrientadora}
+            tasks={site.fechamentoTarefas}
           />
         </section>
 
@@ -93,7 +97,7 @@ const Index = () => {
         <ObservationCard items={schedule.observations} />
 
         {/* Footer */}
-        <Footer />
+        <Footer titulo={site.rodapeTitulo} frase={site.rodapeFrase} />
       </div>
     </div>
   );

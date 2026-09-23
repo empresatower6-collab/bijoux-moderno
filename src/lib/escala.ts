@@ -10,11 +10,56 @@ export interface ScheduleEntry {
   orientadoraFechamento: string;
 }
 
+/**
+ * Textos da página que antes ficavam fixos no código.
+ * Agora vêm do banco (campo `site` dentro de escala.data) e podem ser
+ * editados pelo painel em /painel.html.
+ */
+export interface SiteContent {
+  titulo: string;
+  subtitulo: string;
+  aberturaDescricao: string;
+  aberturaOrientadora: string;
+  aberturaChegada: string;
+  aberturaNota: string;
+  fechamentoDescricao: string;
+  fechamentoOrientadora: string;
+  fechamentoTarefas: string[];
+  rodapeTitulo: string;
+  rodapeFrase: string;
+}
+
 export interface ScheduleData {
   month: string;
   year: string;
   entries: ScheduleEntry[];
   observations: string[];
+  /** Opcional: escalas antigas (sem este campo) usam os textos padrão. */
+  site?: Partial<SiteContent>;
+}
+
+export const defaultSite: SiteContent = {
+  titulo: "Escala da BIJU",
+  subtitulo: "Ser Mulher",
+  aberturaDescricao: "3 pessoas responsáveis por receber e acolher",
+  aberturaOrientadora: "Estefany",
+  aberturaChegada: "Chegar 1 hora antes do horário de culto para organizar a mesa das bijus",
+  aberturaNota:
+    "A orientadora vai pegar os materiais com a Pastora (maquininha de cartão, chave da ceia, etc.)",
+  fechamentoDescricao: "2 pessoas responsáveis por encerrar e organizar",
+  fechamentoOrientadora: "Presbítera Cibele",
+  fechamentoTarefas: [
+    "Pegar a chave da sala da ceia",
+    "Verificar se o canto da Biju está organizado na sala",
+    "Mandar foto para a Pastora Edinolia mostrando como ficou",
+  ],
+  rodapeTitulo: "Ser Mulher",
+  rodapeFrase: "Que Deus Abençoe!",
+};
+
+/** Junta o que veio do banco com os padrões, campo a campo. */
+export function siteContent(site?: Partial<SiteContent>): SiteContent {
+  return { ...defaultSite, ...(site ?? {}) };
 }
 
 export const defaultSchedule: ScheduleData = {

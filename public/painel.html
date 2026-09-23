@@ -454,8 +454,6 @@ button.add{
 .chat-msg.ia .balao{background:#f4f2e8;border:1px solid #cfcabc}
 .chat-msg.aviso .balao{background:#fff3cd;border:1px solid #e0b400;color:#6b4d00;font-size:11px}
 .chat-msg .quem{display:block;font-size:9px;color:#7a7a7a;margin-bottom:2px}
-.chat-exemplos{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
-.chat-exemplos button{font-size:10px;min-height:26px;padding:2px 7px;border-radius:10px}
 .chat-carregando{color:#00309c;font-size:11px;font-style:italic}
 
 /* barras de rolagem XP */
@@ -657,11 +655,10 @@ button.add{
       <fieldset>
         <legend>Conversar com a IA</legend>
         <div class="chat-log" id="chatLog">
-          <div class="chat-vazio" id="chatVazio">Escreva o que voc&ecirc; quer mudar na escala, ou toque num
-exemplo aqui embaixo. Se for s&oacute; pergunta, a IA responde sem mexer em nada.</div>
+          <div class="chat-vazio" id="chatVazio">Escreva abaixo o que voc&ecirc; quer mudar na escala, ou fa&ccedil;a
+uma pergunta. Se for s&oacute; pergunta, a IA responde sem mexer em nada.</div>
         </div>
-        <div class="chat-exemplos" id="chatExemplos"></div>
-        <label class="lb" for="chatInput" style="margin-top:9px">Escreva aqui, ou toque num exemplo (ele j&aacute; envia):</label>
+        <label class="lb" for="chatInput" style="margin-top:9px">Escreva aqui:</label>
         <input type="text" id="chatInput" autocomplete="off">
         <button type="button" class="prim" id="chatEnviar" style="width:100%;margin-top:6px">Enviar para a IA</button>
         <div class="hint" style="margin-top:7px">
@@ -1353,18 +1350,6 @@ exemplo aqui embaixo. Se for s&oacute; pergunta, a IA responde sem mexer em nada
   // Manda a escala atual + a conversa para a edge function escala-chat.
   // Se a IA devolver escala diferente, aplica aqui e salva.
   // ---------------------------------------------------------------
-  var EXEMPLOS_CHAT = [
-    "Troque a mídia do dia 25/07 para Marta",
-    "Tire a Anita do fechamento do dia 25/07",
-    "Adicione o plantão 02/08, sábado, Culto de Jovens, abertura Ana e Julia, mídia Bia, fechamento Ruth",
-    "Troque a orientadora da abertura para Estefany",
-    "Deixe o mês e o ano para Agosto de 2026",
-    "Ajuste as observações: avise que a equipe chega 1 hora antes do culto",
-    "Mude o título da página para Escala da BIJU",
-    "Quem está escalada para a abertura e o fechamento do dia 25/07?"
-  ];
-  var ROTULOS_CHAT = ["Trocar pessoa", "Tirar pessoa", "Novo plantão", "Trocar orientadora",
-                      "Mudar mês e ano", "Ajustar avisos", "Mudar título", "Só perguntar"];
   var chatMsgs = [];
   var chatOcupado = false;
 
@@ -1385,8 +1370,8 @@ exemplo aqui embaixo. Se for s&oacute; pergunta, a IA responde sem mexer em nada
     el("chatLog").scrollTop = el("chatLog").scrollHeight;
   }
 
-  function chatEnviar(textoForcado) {
-    var txt = (typeof textoForcado === "string" ? textoForcado : el("chatInput").value).trim();
+  function chatEnviar() {
+    var txt = el("chatInput").value.trim();
     if (!txt || chatOcupado) return;
     el("chatInput").value = "";
     chatAdd("user", txt);
@@ -1439,15 +1424,6 @@ exemplo aqui embaixo. Se for s&oacute; pergunta, a IA responde sem mexer em nada
   }
 
   (function montaChat() {
-    var box = el("chatExemplos");
-    EXEMPLOS_CHAT.forEach(function (txt, i) {
-      var b = document.createElement("button");
-      b.type = "button";
-      b.textContent = ROTULOS_CHAT[i] || "Exemplo";
-      b.title = txt;
-      b.onclick = function () { chatEnviar(txt); };
-      box.appendChild(b);
-    });
     el("chatEnviar").onclick = function () { chatEnviar(); };
     el("chatInput").onkeydown = function (e) {
       if (e.key === "Enter") {

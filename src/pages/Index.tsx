@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import InfoCard from "@/components/InfoCard";
 import backgroundImage from "@/assets/background.jpg";
@@ -7,7 +6,7 @@ import DateBadge from "@/components/DateBadge";
 import ScheduleCard from "@/components/ScheduleCard";
 import ObservationCard from "@/components/ObservationCard";
 import Footer from "@/components/Footer";
-import { CalendarDays, Settings } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { defaultSchedule, type ScheduleData } from "@/lib/escala";
 
@@ -68,19 +67,30 @@ const Index = () => {
             <CalendarDays className="w-6 h-6 text-primary" /> Plantões
           </h2>
 
-          {/* 25/07 - Sábado - Culto de Mulheres */}
-          <div className="space-y-4">
-            <DateBadge date="25/07" day="Sábado" label="Culto de Mulheres" />
+          {schedule.entries.map((entry) => (
+            <div key={entry.id} className="space-y-4">
+              <DateBadge date={entry.date} day={entry.day} label={entry.label} />
 
-            <div className="grid md:grid-cols-2 gap-4">
-              <ScheduleCard type="abertura" members={abertura25} orientadora="Estefany" midia="Bia" showArrivalNote />
-              <ScheduleCard type="fechamento" members={fechamento25} orientadora="Presb. Cibele" />
+              <div className="grid md:grid-cols-2 gap-4">
+                <ScheduleCard
+                  type="abertura"
+                  members={entry.abertura.map((name) => ({ name }))}
+                  orientadora={entry.orientadoraAbertura}
+                  midia={entry.midia}
+                  showArrivalNote
+                />
+                <ScheduleCard
+                  type="fechamento"
+                  members={entry.fechamento.map((name) => ({ name }))}
+                  orientadora={entry.orientadoraFechamento}
+                />
+              </div>
             </div>
-          </div>
+          ))}
         </section>
 
         {/* Observações */}
-        <ObservationCard items={observations} />
+        <ObservationCard items={schedule.observations} />
 
         {/* Footer */}
         <Footer />

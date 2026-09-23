@@ -645,6 +645,7 @@ button.add{
 
   <div class="menu" id="menu">
     <div class="menu-head" id="menuHead">Painel da Escala</div>
+    <button class="menu-item" type="button" onclick="window.open('/painel','_blank')"><span class="mi"></span>Falar com a IA (chat)</button>
     <button class="menu-item" type="button" id="mSalvar"><span class="mi"></span>Salvar altera&ccedil;&otilde;es</button>
     <button class="menu-item" type="button" id="mRecarregar"><span class="mi"></span>Descartar e recarregar</button>
     <button class="menu-item" type="button" id="mSite"><span class="mi"></span>Ver o site</button>
@@ -1006,8 +1007,11 @@ button.add{
       }
       if (!S.id) S.id = r.data[0].id;
       S.sujo = false;
-      status("Salvo às " + new Date().toLocaleTimeString("pt-BR").slice(0, 5) + " — já está no ar", "ok");
-      return carregar();
+      // recarrega primeiro e so depois mostra o "Salvo", senao o proprio
+      // carregar() sobrescreve a confirmacao e a pessoa nunca ve que salvou
+      return carregar().then(function () {
+        status("Salvo às " + new Date().toLocaleTimeString("pt-BR").slice(0, 5) + " — já está no ar", "ok");
+      });
     })
     .catch(function (e) {
       var m = String(e.message || e);

@@ -440,6 +440,23 @@ button.add{
   padding:1px 6px;border-radius:8px;font-weight:bold;
 }
 
+/* ---------- chat com a IA ---------- */
+.chat-log{
+  background:#fff;border:1px solid var(--xp-border);
+  height:230px;overflow-y:auto;padding:8px;font-size:12px;line-height:1.5;
+}
+.chat-vazio{color:#8a8a8a;font-size:11px;font-style:italic;padding:2px}
+.chat-msg{display:flex;margin:0 0 8px}
+.chat-msg .balao{max-width:88%;padding:5px 8px;border-radius:3px;word-wrap:break-word;white-space:pre-wrap}
+.chat-msg.eu{justify-content:flex-end}
+.chat-msg.eu .balao{background:#dbe9ff;border:1px solid #a8c4ee}
+.chat-msg.ia .balao{background:#f4f2e8;border:1px solid #cfcabc}
+.chat-msg.aviso .balao{background:#fff3cd;border:1px solid #e0b400;color:#6b4d00;font-size:11px}
+.chat-msg .quem{display:block;font-size:9px;color:#7a7a7a;margin-bottom:2px}
+.chat-exemplos{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.chat-exemplos button{font-size:10px;min-height:26px;padding:2px 7px;border-radius:10px}
+.chat-carregando{color:#00309c;font-size:11px;font-style:italic}
+
 /* barras de rolagem XP */
 *::-webkit-scrollbar{width:13px;height:13px}
 *::-webkit-scrollbar-track{
@@ -516,6 +533,7 @@ button.add{
     <button class="tab" type="button" data-tab="plantoes">Plant&otilde;es</button>
     <button class="tab" type="button" data-tab="avisos">Avisos</button>
     <button class="tab" type="button" data-tab="textos">Textos</button>
+    <button class="tab" type="button" data-tab="chat">Chat IA</button>
   </div>
 
   <div class="win-body">
@@ -629,6 +647,25 @@ button.add{
         <div>
           <label class="lb" for="tRodFrase">Frase</label>
           <input type="text" id="tRodFrase" placeholder="Que Deus Aben&ccedil;oe!">
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- ---------- ABA CHAT IA ---------- -->
+    <div class="tab-panel" id="p-chat">
+      <fieldset>
+        <legend>Conversar com a IA</legend>
+        <div class="chat-log" id="chatLog">
+          <div class="chat-vazio" id="chatVazio">Escreva o que voc&ecirc; quer mudar na escala, ou toque num
+exemplo aqui embaixo. Se for s&oacute; pergunta, a IA responde sem mexer em nada.</div>
+        </div>
+        <div class="chat-exemplos" id="chatExemplos"></div>
+        <input type="text" id="chatInput" style="margin-top:8px"
+               placeholder="Ex: troca a m&iacute;dia do dia 25/07 para Marta">
+        <button type="button" class="prim" id="chatEnviar" style="width:100%;margin-top:6px">Enviar para a IA</button>
+        <div class="hint" style="margin-top:7px">
+          A IA devolve a escala j&aacute; atualizada e o painel salva sozinho.
+          Se sua conta n&atilde;o for admin, a altera&ccedil;&atilde;o fica pronta mas n&atilde;o grava.
         </div>
       </fieldset>
     </div>
@@ -1309,6 +1346,118 @@ button.add{
   window.addEventListener("beforeunload", function (e) {
     if (S.sujo) { e.preventDefault(); e.returnValue = ""; }
   });
+
+  // ---------------------------------------------------------------
+  // CHAT COM A IA
+  // Manda a escala atual + a conversa para a edge function escala-chat.
+  // Se a IA devolver escala diferente, aplica aqui e salva.
+  // ---------------------------------------------------------------
+  var EXEMPLOS_CHAT = [
+    "Troque a mídia do dia 25/07 para Marta",
+    "Tire a Anita do fechamento do dia 25/07",
+    "Adicione o plantão 02/08, sábado, Culto de Jovens, abertura Ana e Julia, mídia Bia, fechamento Ruth",
+    "Troque a orientadora da abertura para Estefany",
+    "Deixe o mês e o ano para Agosto de 2026",
+    "Ajuste as observações: avise que a equipe chega 1 hora antes do culto",
+    "Mude o título da página para Escala da BIJU",
+    "Quem está escalada para a abertura e o fechamento do dia 25/07?"
+  ];
+  var ROTULOS_CHAT = ["Trocar pessoa", "Tirar pessoa", "Novo plantão", "Trocar orientadora",
+                      "Mudar mês e ano", "Ajustar avisos", "Mudar título", "Só perguntar"];
+  var chatMsgs = [];
+  var chatOcupado = false;
+
+  function chatAdd(role, texto) {
+    var v = el("chatVazio");
+    if (v) v.style.display = "none";
+    var d = document.createElement("div");
+    d.className = "chat-msg " + (role === "user" ? "eu" : (role === "system" ? "aviso" : "ia"));
+    var b = document.createElement("div");
+    b.className = "balao";
+    var q = document.createElement("span");
+    q.className = "quem";
+    q.textContent = role === "user" ? "Você" : (role === "system" ? "Painel" : "IA");
+    b.appendChild(q);
+    b.appendChild(document.createTextNode(texto));
+    d.appendChild(b);
+    el("chatLog").appendChild(d);
+    el("chatLog").scrollTop = el("chatLog").scrollHeight;
+  }
+
+  function chatEnviar() {
+    var txt = el("chatInput").value.trim();
+    if (!txt || chatOcupado) return;
+    el("chatInput").value = "";
+    chatAdd("user", txt);
+    chatMsgs.push({ role: "user", content: txt });
+    chatOcupado = true;
+    var btn = el("chatEnviar");
+    btn.disabled = true;
+    btn.textContent = "A IA está respondendo...";
+    var load = document.createElement("div");
+    load.className = "chat-carregando";
+    load.textContent = "Pensando...";
+    el("chatLog").appendChild(load);
+    el("chatLog").scrollTop = el("chatLog").scrollHeight;
+
+    sb.functions.invoke("escala-chat", { body: { schedule: S.data, messages: chatMsgs } })
+      .then(function (r) {
+        if (r.error) throw r.error;
+        var d = r.data || {};
+        if (d.error) throw new Error(d.error);
+        if (load.parentNode) load.parentNode.removeChild(load);
+        var resp = d.reply || "Pronto.";
+        chatAdd("assistant", resp);
+        chatMsgs.push({ role: "assistant", content: resp });
+
+        if (d.schedule) {
+          var novo = normaliza(d.schedule);
+          var mudou = JSON.stringify(limpa(novo)) !== JSON.stringify(limpa(S.data));
+          if (mudou) {
+            S.data = novo;
+            desenha();
+            if (S.ehAdmin) {
+              chatAdd("system", "Escala atualizada. Salvando no site...");
+              salvar();
+            } else {
+              marcarSujo();
+              chatAdd("system", "A alteração ficou pronta aqui, mas sua conta não é admin, então não grava.");
+            }
+          }
+        }
+      })
+      .catch(function (e) {
+        if (load.parentNode) load.parentNode.removeChild(load);
+        chatAdd("system", "Erro: " + String(e.message || e));
+      })
+      .then(function () {
+        chatOcupado = false;
+        btn.disabled = false;
+        btn.textContent = "Enviar para a IA";
+      });
+  }
+
+  (function montaChat() {
+    var box = el("chatExemplos");
+    EXEMPLOS_CHAT.forEach(function (txt, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.textContent = ROTULOS_CHAT[i] || "Exemplo";
+      b.title = txt;
+      b.onclick = function () {
+        el("chatInput").value = txt;
+        el("chatInput").focus();
+      };
+      box.appendChild(b);
+    });
+    el("chatEnviar").onclick = chatEnviar;
+    el("chatInput").onkeydown = function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        chatEnviar();
+      }
+    };
+  })();
 
   // ---------------------------------------------------------------
   // start

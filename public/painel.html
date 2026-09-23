@@ -889,6 +889,7 @@ button.add{
         .then(function (q) {
           S.ehAdmin = !!(q.data && q.data.some(function (x) { return x.role === "admin"; }));
           el("avisoAdmin").classList.toggle("hidden", S.ehAdmin);
+          if (!S.ehAdmin) montaAvisoAdmin();
           el("menuHead").textContent = S.user.email || "Painel da Escala";
           el("winTitle").textContent = "Painel da Escala";
           el("telaLogin").classList.add("hidden");
@@ -896,6 +897,37 @@ button.add{
           return carregar();
         });
     });
+  }
+
+  // Se a conta nao for admin, mostra o SQL exato que libera ELA,
+  // ja com o user id preenchido, pra copiar e colar.
+  function montaAvisoAdmin() {
+    var sql = "INSERT INTO public.user_roles (user_id, role)\nVALUES ('" + S.user.id +
+              "', 'admin')\nON CONFLICT (user_id, role) DO NOTHING;";
+    var alvo = el("avisoAdmin").querySelector("div:last-child");
+    alvo.innerHTML =
+      'Sua conta <b>não é administradora</b>. Você vê tudo, mas o <b>Salvar</b> vai ser recusado pelo banco.' +
+      '<div style="margin-top:7px">Rode este SQL no painel do Lovable (seção Cloud / banco de dados) ' +
+      'ou no SQL editor do Supabase. É ele que libera <b>esta</b> conta:</div>' +
+      '<textarea readonly id="sqlAviso" style="margin-top:5px;min-height:82px;font-size:12px;' +
+      'font-family:Consolas,Menlo,monospace;line-height:1.4"></textarea>' +
+      '<button type="button" class="sm" id="btnCopiarSql" style="width:100%;margin-top:5px">Copiar SQL</button>';
+    el("sqlAviso").textContent = sql;
+    el("btnCopiarSql").onclick = function () {
+      var t = el("sqlAviso");
+      t.focus(); t.select();
+      var pronto = function () {
+        el("btnCopiarSql").textContent = "Copiado!";
+        setTimeout(function () { el("btnCopiarSql").textContent = "Copiar SQL"; }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(sql).then(pronto, function () {
+          try { document.execCommand("copy"); pronto(); } catch (e) {}
+        });
+      } else {
+        try { document.execCommand("copy"); pronto(); } catch (e) {}
+      }
+    };
   }
 
   function mostraLogin() {
